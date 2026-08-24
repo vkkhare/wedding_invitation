@@ -131,22 +131,14 @@ function JharokhaArt() {
   )
 }
 
-/* Headline beside the jharokha: the big day, its name, and the date */
+/* Beside the jharokha: diya, the big day, its name, date, and the schedule */
 function BigDayHead({ ev }) {
   return (
     <Reveal className="bigday__head">
+      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
       <p className="event-card__kicker">{ev.kicker}</p>
       <h3 className="bigday__title script">{ev.title}</h3>
       <p className="event-card__meta">{ev.meta}</p>
-    </Reveal>
-  )
-}
-
-/* The day's schedule, set below the artwork */
-function BigDayDetails({ ev }) {
-  return (
-    <Reveal className="bigday__details">
-      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
       <div className="event-card__sub">
         {ev.sub.map((s, i) => (
           <span key={s} className="event-card__subitem">
@@ -181,11 +173,10 @@ export default function Events() {
         ))}
       </div>
 
-      {/* The Big Day — one composition: jharokha with the headline beside it, schedule below */}
+      {/* The Big Day — one composition: the jharokha with the full day beside it */}
       <div className="bigday">
         <JharokhaArt />
         <BigDayHead ev={EVENTS.find((ev) => ev.main)} />
-        <BigDayDetails ev={EVENTS.find((ev) => ev.main)} />
       </div>
     </section>
   )

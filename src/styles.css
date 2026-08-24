@@ -385,12 +385,10 @@ sup { font-size: 0.55em; }
   margin: 6px 0 8px;
   font-weight: 400;
 }
-.bigday__details {
-  grid-column: 1 / -1;
-  width: min(680px, calc(100% - 48px));
-  margin: 0 auto;
-  text-align: center;
-}
+.bigday__head .event-card__icon { margin-bottom: 10px; }
+.bigday__head .event-card__sub { margin-top: 16px; flex-direction: column; gap: 8px; }
+.bigday__head .event-card__subitem { display: block; }
+.bigday__head .event-card__sub i { display: none; }
 
 /* train band */
 .train-band {
