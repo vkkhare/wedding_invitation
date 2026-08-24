@@ -48,5 +48,5 @@ npm run build    # production build → dist/
 ## Hosting
 
 Netlify builds and deploys on every push to the production branch
-(`claude/wedding-invite-website-fpk0yi`); build settings are pinned in `netlify.toml`.
+(`main`); build settings are pinned in `netlify.toml`.
 A manual GitHub Pages workflow remains available from the Actions tab as backup.
