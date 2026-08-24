@@ -1,10 +1,9 @@
 name: Deploy to GitHub Pages
 
+# Hosting moved to Netlify (https://varunwedsprarita.netlify.app), which
+# builds on every push by itself. This workflow is kept as a manual backup
+# for GitHub Pages — trigger it from the Actions tab if ever needed.
 on:
-  push:
-    branches:
-      - main
-      - claude/wedding-invite-website-fpk0yi
   workflow_dispatch:
 
 permissions:

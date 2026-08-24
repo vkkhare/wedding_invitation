@@ -1,0 +1,10 @@
+# Netlify build settings — pinned here so the UI configuration can't drift.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Long-cache immutable hashed assets; fonts are content-addressed by filename.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

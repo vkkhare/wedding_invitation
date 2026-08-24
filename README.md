@@ -3,9 +3,7 @@
 A mobile-first React wedding invitation website for the celebrations of
 **Varun & Prarita**, 26th November 2026 · Utopia Resort, Sanchi (Vidisha).
 
-**Live site:** https://vkkhare.github.io/wedding_invitation/
-(a standalone project page — separate from any root `vkkhare.github.io` site;
-rename the repo to change the path segment)
+**Live site:** https://varunwedsprarita.netlify.app
 
 ## Stack
 
@@ -49,6 +47,6 @@ npm run build    # production build → dist/
 
 ## Hosting
 
-GitHub Actions (`.github/workflows/deploy.yml`) builds the app and deploys
-`dist/` to GitHub Pages on every push. If the first run reports Pages is not
-enabled, enable it once under **Settings → Pages → Source: GitHub Actions**.
+Netlify builds and deploys on every push to the production branch
+(`claude/wedding-invite-website-fpk0yi`); build settings are pinned in `netlify.toml`.
+A manual GitHub Pages workflow remains available from the Actions tab as backup.
