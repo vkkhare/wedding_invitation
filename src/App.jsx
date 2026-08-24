@@ -5,6 +5,7 @@ import Couple from './components/Couple.jsx'
 import Countdown from './components/Countdown.jsx'
 import Events from './components/Events.jsx'
 import Family from './components/Family.jsx'
+import TrainBand from './components/TrainBand.jsx'
 import Footer from './components/Footer.jsx'
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
         <Countdown />
         <Events />
         <Family />
+        <TrainBand />
         <Footer />
       </main>
     </>

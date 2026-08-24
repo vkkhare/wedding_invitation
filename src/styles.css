@@ -351,6 +351,34 @@ sup { font-size: 0.55em; }
 .event-card__dir:hover { background: #8a1a1e; color: var(--gold-soft); transform: translateY(-2px); }
 
 /* family / rsvp */
+.family-art {
+  margin: clamp(28px, 7vw, 52px) 0 0;
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+.family-art img {
+  width: clamp(280px, 76vw, 500px);
+  height: auto;
+  filter: drop-shadow(14px 22px 40px rgba(20, 2, 3, 0.5));
+}
+
+/* train band */
+.train-band {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+  background: var(--maroon-deep);
+}
+.train-band img {
+  width: 100%;
+  height: auto;
+  display: block;
+  scale: 1.18; /* headroom so the parallax drift never reveals edges */
+  will-change: transform;
+}
+
+
 .family-head { font-family: "Marcellus", serif; font-size: 0.82rem; letter-spacing: 0.34em; text-indent: 0.34em; text-transform: uppercase; color: var(--gold); margin-top: clamp(18px, 5vw, 30px); }
 .family-names { font-size: clamp(1.02rem, 3.5vw, 1.18rem); line-height: 1.9; color: var(--gold-soft); margin-top: 8px; }
 
@@ -388,6 +416,8 @@ sup { font-size: 0.55em; }
 /* ─────────────── Desktop ─────────────── */
 @media (min-width: 720px) {
   .br-desk { display: inline; }
+  .family-art { justify-content: center; }
+  .family-art img { width: min(44vw, 480px); }
   .hero__names { flex-direction: row; align-items: baseline; gap: 26px; }
   .hero__weds { margin: 0; }
   .event-card { border-radius: 190px 190px 20px 20px; }

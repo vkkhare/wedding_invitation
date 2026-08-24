@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 import { Divider } from './Invocation.jsx'
 
@@ -5,6 +7,11 @@ const WHATSAPP =
   'https://wa.me/917898527805?text=Namaste!%20We%20would%20be%20delighted%20to%20join%20the%20wedding%20celebrations%20of%20Varun%20%26%20Prarita.%20%E2%80%94'
 
 export default function Family() {
+  const artRef = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: artRef, offset: ['start end', 'end start'] })
+  const artY = useTransform(scrollYProgress, [0, 1], [46, -30])
+
   return (
     <section className="section section--red" id="family">
       <div className="curtain-top curtain-top--flip" aria-hidden="true">
@@ -21,7 +28,23 @@ export default function Family() {
           Thank you for being part of our journey. Your presence at the wedding celebrations will
           enhance the joy of the occasion and add blessings to this happy union.
         </Reveal>
+      </div>
 
+      {/* Couple on the jharokha — bleeds off the left edge like a palace balcony */}
+      <figure className="family-art" ref={artRef} aria-hidden="true">
+        <motion.img
+          src="assets/jharokha.webp"
+          alt=""
+          loading="lazy"
+          style={reduce ? undefined : { y: artY }}
+          initial={reduce ? false : { opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </figure>
+
+      <div className="wrap">
         <Divider glyph="✻" />
 
         <Reveal as="p" className="family-head">Special Request</Reveal>
