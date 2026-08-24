@@ -4,6 +4,7 @@ import Invocation from './components/Invocation.jsx'
 import Couple from './components/Couple.jsx'
 import Countdown from './components/Countdown.jsx'
 import Events from './components/Events.jsx'
+import Venue from './components/Venue.jsx'
 import Family from './components/Family.jsx'
 import TrainBand from './components/TrainBand.jsx'
 import Footer from './components/Footer.jsx'
@@ -33,6 +34,7 @@ export default function App() {
         <Couple />
         <Countdown />
         <Events />
+        <Venue />
         <Family />
         <TrainBand />
         <Footer />

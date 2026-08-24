@@ -64,16 +64,14 @@ const EVENTS = [
     icon: <PheraIcon />,
     kicker: 'The Big Day',
     title: 'Wedding & Reception',
-    meta: <>Thursday, November 26<sup>th</sup> 2026</>,
+    meta: <>Thursday · 26<sup>th</sup> November 2026</>,
     sub: ['Baraat Prasthan · 2:00 pm', 'Jaimala · 4:00 pm', 'Phere · 5:45 pm', 'Reception & Dinner · 8:00 pm'],
-    venue: 'At Utopia Resort, Sanchi (Vidisha)',
     main: true,
-    actions: [
-      { label: 'View Directions', href: MAPS_UTOPIA },
-      { label: 'Add to Calendar', href: GCAL },
-    ],
+    actions: [],
   },
 ]
+
+export { MAPS_UTOPIA, GCAL }
 
 function EventCard({ ev }) {
   return (
@@ -133,36 +131,28 @@ function JharokhaArt() {
   )
 }
 
-/* The main day rendered without card chrome, straight on the damask ground */
-function BigDayInfo({ ev }) {
+/* Headline beside the jharokha: the big day, its name, and the date */
+function BigDayHead({ ev }) {
   return (
-    <Reveal className="bigday__info">
-      <div className="event-card__datebar">
-        <span className="event-card__day">{ev.day}</span>
-        <span className="event-card__mon">
-          {ev.date}
-          <br />
-          {ev.weekday}
-        </span>
-      </div>
-      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
+    <Reveal className="bigday__head">
       <p className="event-card__kicker">{ev.kicker}</p>
-      <h3 className="event-card__title script">{ev.title}</h3>
+      <h3 className="bigday__title script">{ev.title}</h3>
       <p className="event-card__meta">{ev.meta}</p>
+    </Reveal>
+  )
+}
+
+/* The day's schedule, set below the artwork */
+function BigDayDetails({ ev }) {
+  return (
+    <Reveal className="bigday__details">
+      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
       <div className="event-card__sub">
         {ev.sub.map((s, i) => (
           <span key={s} className="event-card__subitem">
             {i > 0 && <i>❖</i>}
             <span>{s}</span>
           </span>
-        ))}
-      </div>
-      <p className="event-card__venue">{ev.venue}</p>
-      <div className="event-card__actions">
-        {ev.actions.map((a) => (
-          <a key={a.label} className="event-card__dir" href={a.href} target="_blank" rel="noopener noreferrer">
-            {a.label}
-          </a>
         ))}
       </div>
     </Reveal>
@@ -191,10 +181,11 @@ export default function Events() {
         ))}
       </div>
 
-      {/* The Big Day — one composition: the couple on the jharokha, details beside them */}
+      {/* The Big Day — one composition: jharokha with the headline beside it, schedule below */}
       <div className="bigday">
         <JharokhaArt />
-        <BigDayInfo ev={EVENTS.find((ev) => ev.main)} />
+        <BigDayHead ev={EVENTS.find((ev) => ev.main)} />
+        <BigDayDetails ev={EVENTS.find((ev) => ev.main)} />
       </div>
     </section>
   )

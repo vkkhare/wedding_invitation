@@ -6,15 +6,7 @@ const WHATSAPP =
 
 export default function Family() {
   return (
-    <section className="section section--red" id="family">
-      <div className="curtain-top curtain-top--flip" aria-hidden="true">
-        <svg viewBox="0 0 1440 110" preserveAspectRatio="none">
-          <path
-            d="M0,0 L1440,0 L1440,40 C1200,100 960,110 720,110 C480,110 240,100 0,40 Z"
-            fill="#f6ecd9"
-          />
-        </svg>
-      </div>
+    <section className="section section--red section--flush" id="family">
       <div className="wrap">
         <Reveal as="h2" className="script section-script">With Love From Us</Reveal>
         <Reveal as="p" className="count-copy">
