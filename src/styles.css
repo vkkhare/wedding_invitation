@@ -350,17 +350,27 @@ sup { font-size: 0.55em; }
 }
 .event-card__dir:hover { background: #8a1a1e; color: var(--gold-soft); transform: translateY(-2px); }
 
-/* family / rsvp */
-.family-art {
-  margin: clamp(28px, 7vw, 52px) 0 0;
+/* the big day: wedding card beside the jharokha art */
+.bigday {
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  position: relative;
+  z-index: 2;
+}
+.bigday .event-card { width: min(680px, 100%); margin-left: auto; margin-right: auto; }
+.bigday__art {
   display: flex;
   justify-content: flex-start;
   overflow: hidden;
+  margin-top: clamp(22px, 5vw, 36px);
 }
-.family-art img {
-  width: clamp(280px, 76vw, 500px);
+.bigday__art img {
+  width: clamp(270px, 72vw, 460px);
   height: auto;
-  filter: drop-shadow(14px 22px 40px rgba(20, 2, 3, 0.5));
+  filter: drop-shadow(14px 22px 40px rgba(90, 30, 20, 0.35));
 }
 
 /* train band */
@@ -416,12 +426,22 @@ sup { font-size: 0.55em; }
 /* ─────────────── Desktop ─────────────── */
 @media (min-width: 720px) {
   .br-desk { display: inline; }
-  .family-art { justify-content: center; }
-  .family-art img { width: min(44vw, 480px); }
   .hero__names { flex-direction: row; align-items: baseline; gap: 26px; }
   .hero__weds { margin: 0; }
   .event-card { border-radius: 190px 190px 20px 20px; }
   .event-card::before { border-radius: 180px 180px 14px 14px; }
+}
+
+@media (min-width: 960px) {
+  .bigday {
+    grid-template-columns: 1.1fr 0.8fr;
+    align-items: center;
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: clamp(30px, 4vw, 48px);
+  }
+  .bigday .event-card { margin: 0; }
+  .bigday__art { justify-content: center; margin-top: 0; overflow: visible; }
+  .bigday__art img { width: min(30vw, 400px); }
 }
 
 /* ─────────────── Reduced motion ─────────────── */

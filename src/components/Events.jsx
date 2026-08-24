@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 
 const MAPS_UTOPIA = 'https://www.google.com/maps/search/?api=1&query=Utopia+Resort+Sanchi+Vidisha'
@@ -73,6 +75,64 @@ const EVENTS = [
   },
 ]
 
+function EventCard({ ev }) {
+  return (
+    <Reveal as="article" className={`event-card${ev.main ? ' event-card--main' : ''}`}>
+      <div className="event-card__datebar">
+        <span className="event-card__day">{ev.day}</span>
+        <span className="event-card__mon">
+          {ev.date}
+          <br />
+          {ev.weekday}
+        </span>
+      </div>
+      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
+      {ev.kicker && <p className="event-card__kicker">{ev.kicker}</p>}
+      <h3 className="event-card__title script">{ev.title}</h3>
+      <p className="event-card__meta">{ev.meta}</p>
+      <div className="event-card__sub">
+        {ev.sub.map((s, i) => (
+          <span key={s} className="event-card__subitem">
+            {i > 0 && <i>❖</i>}
+            <span>{s}</span>
+          </span>
+        ))}
+      </div>
+      <p className="event-card__venue">{ev.venue}</p>
+      <div className="event-card__actions">
+        {ev.actions.map((a) => (
+          <a key={a.label} className="event-card__dir" href={a.href} target="_blank" rel="noopener noreferrer">
+            {a.label}
+          </a>
+        ))}
+      </div>
+    </Reveal>
+  )
+}
+
+/* Couple on the palace jharokha, drifting beside the wedding-day card */
+function JharokhaArt() {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], [46, -34])
+
+  return (
+    <figure className="bigday__art" ref={ref} aria-hidden="true">
+      <motion.img
+        src="assets/jharokha.webp"
+        alt=""
+        loading="lazy"
+        style={reduce ? undefined : { y }}
+        initial={reduce ? false : { opacity: 0, x: -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </figure>
+  )
+}
+
 export default function Events() {
   return (
     <section className="section section--cream" id="events">
@@ -90,38 +150,15 @@ export default function Events() {
         </Reveal>
         <Reveal as="h2" className="script section-script section-script--dark">Wedding Festivities</Reveal>
 
-        {EVENTS.map((ev) => (
-          <Reveal as="article" key={ev.day} className={`event-card${ev.main ? ' event-card--main' : ''}`}>
-            <div className="event-card__datebar">
-              <span className="event-card__day">{ev.day}</span>
-              <span className="event-card__mon">
-                {ev.date}
-                <br />
-                {ev.weekday}
-              </span>
-            </div>
-            <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
-            {ev.kicker && <p className="event-card__kicker">{ev.kicker}</p>}
-            <h3 className="event-card__title script">{ev.title}</h3>
-            <p className="event-card__meta">{ev.meta}</p>
-            <div className="event-card__sub">
-              {ev.sub.map((s, i) => (
-                <span key={s} className="event-card__subitem">
-                  {i > 0 && <i>❖</i>}
-                  <span>{s}</span>
-                </span>
-              ))}
-            </div>
-            <p className="event-card__venue">{ev.venue}</p>
-            <div className="event-card__actions">
-              {ev.actions.map((a) => (
-                <a key={a.label} className="event-card__dir" href={a.href} target="_blank" rel="noopener noreferrer">
-                  {a.label}
-                </a>
-              ))}
-            </div>
-          </Reveal>
+        {EVENTS.filter((ev) => !ev.main).map((ev) => (
+          <EventCard key={ev.day} ev={ev} />
         ))}
+      </div>
+
+      {/* The Big Day — card beside the couple on the jharokha */}
+      <div className="bigday">
+        <EventCard ev={EVENTS.find((ev) => ev.main)} />
+        <JharokhaArt />
       </div>
     </section>
   )
