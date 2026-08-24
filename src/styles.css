@@ -372,7 +372,6 @@ sup { font-size: 0.55em; }
   width: 100%;
   max-width: 560px;
   height: auto;
-  filter: drop-shadow(14px 22px 40px rgba(90, 30, 20, 0.35));
 }
 .bigday__head {
   text-align: center;
