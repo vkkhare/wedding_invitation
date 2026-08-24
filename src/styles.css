@@ -366,9 +366,10 @@ sup { font-size: 0.55em; }
   display: flex;
   justify-content: flex-start;
   margin: 0;
+  order: 2; /* mobile: details first, balcony below */
 }
 .bigday__art img {
-  width: clamp(300px, 82vw, 560px);
+  width: clamp(240px, 64vw, 400px);
   height: auto;
   filter: drop-shadow(14px 22px 40px rgba(90, 30, 20, 0.35));
 }
@@ -376,6 +377,7 @@ sup { font-size: 0.55em; }
   width: min(680px, calc(100% - 48px));
   margin: 0 auto;
   text-align: center;
+  order: 1;
 }
 
 /* train band */
@@ -442,7 +444,7 @@ sup { font-size: 0.55em; }
     grid-template-columns: minmax(0, 45%) minmax(0, 55%);
     gap: clamp(28px, 4vw, 64px);
   }
-  .bigday__art { align-self: center; }
+  .bigday__art { align-self: center; order: 0; }
   .bigday__art img { width: 100%; max-width: 640px; }
   .bigday__info {
     width: auto;
