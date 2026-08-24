@@ -73,6 +73,9 @@ const EVENTS = [
 
 export { MAPS_UTOPIA, GCAL }
 
+/* Bind times like "8:00 pm" with a non-breaking space so "pm" never wraps alone */
+const nb = (s) => s.replace(/ · (?=\d)/g, ' · ').replace(/ (am|pm)\b/g, ' $1')
+
 function EventCard({ ev }) {
   return (
     <Reveal as="article" className={`event-card${ev.main ? ' event-card--main' : ''}`}>
@@ -92,7 +95,7 @@ function EventCard({ ev }) {
         {ev.sub.map((s, i) => (
           <span key={s} className="event-card__subitem">
             {i > 0 && <i>❖</i>}
-            <span>{s}</span>
+            <span>{nb(s)}</span>
           </span>
         ))}
       </div>
@@ -143,7 +146,7 @@ function BigDayHead({ ev }) {
         {ev.sub.map((s, i) => (
           <span key={s} className="event-card__subitem">
             {i > 0 && <i>❖</i>}
-            <span>{s}</span>
+            <span>{nb(s)}</span>
           </span>
         ))}
       </div>
