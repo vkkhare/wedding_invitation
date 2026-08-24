@@ -133,6 +133,42 @@ function JharokhaArt() {
   )
 }
 
+/* The main day rendered without card chrome, straight on the damask ground */
+function BigDayInfo({ ev }) {
+  return (
+    <Reveal className="bigday__info">
+      <div className="event-card__datebar">
+        <span className="event-card__day">{ev.day}</span>
+        <span className="event-card__mon">
+          {ev.date}
+          <br />
+          {ev.weekday}
+        </span>
+      </div>
+      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
+      <p className="event-card__kicker">{ev.kicker}</p>
+      <h3 className="event-card__title script">{ev.title}</h3>
+      <p className="event-card__meta">{ev.meta}</p>
+      <div className="event-card__sub">
+        {ev.sub.map((s, i) => (
+          <span key={s} className="event-card__subitem">
+            {i > 0 && <i>❖</i>}
+            <span>{s}</span>
+          </span>
+        ))}
+      </div>
+      <p className="event-card__venue">{ev.venue}</p>
+      <div className="event-card__actions">
+        {ev.actions.map((a) => (
+          <a key={a.label} className="event-card__dir" href={a.href} target="_blank" rel="noopener noreferrer">
+            {a.label}
+          </a>
+        ))}
+      </div>
+    </Reveal>
+  )
+}
+
 export default function Events() {
   return (
     <section className="section section--cream" id="events">
@@ -155,10 +191,10 @@ export default function Events() {
         ))}
       </div>
 
-      {/* The Big Day — card beside the couple on the jharokha */}
+      {/* The Big Day — one composition: the couple on the jharokha, details beside them */}
       <div className="bigday">
-        <EventCard ev={EVENTS.find((ev) => ev.main)} />
         <JharokhaArt />
+        <BigDayInfo ev={EVENTS.find((ev) => ev.main)} />
       </div>
     </section>
   )
