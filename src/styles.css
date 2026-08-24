@@ -434,13 +434,13 @@ sup { font-size: 0.55em; }
 
 @media (min-width: 960px) {
   .bigday {
-    grid-template-columns: 1.1fr 0.8fr;
+    grid-template-columns: 0.8fr 1.1fr;
     align-items: center;
     gap: clamp(24px, 4vw, 56px);
     margin-top: clamp(30px, 4vw, 48px);
   }
   .bigday .event-card { margin: 0; }
-  .bigday__art { justify-content: center; margin-top: 0; overflow: visible; }
+  .bigday__art { order: -1; justify-content: center; margin-top: 0; overflow: visible; }
   .bigday__art img { width: min(30vw, 400px); }
 }
 
