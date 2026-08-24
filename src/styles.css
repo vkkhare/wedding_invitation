@@ -386,8 +386,14 @@ sup { font-size: 0.55em; }
   font-weight: 400;
 }
 .bigday__head .event-card__icon { margin-bottom: 10px; }
-.bigday__head .event-card__sub { margin-top: 16px; flex-direction: column; gap: 8px; }
-.bigday__head .event-card__subitem { display: block; }
+.bigday__head .event-card__sub {
+  margin-top: 16px;
+  flex-direction: column;
+  gap: 8px;
+  /* sized so the longest line stays whole in the narrow column */
+  font-size: clamp(0.8rem, 3.3vw, 1.05rem);
+}
+.bigday__head .event-card__subitem { display: block; white-space: nowrap; }
 .bigday__head .event-card__sub i { display: none; }
 
 /* train band */
