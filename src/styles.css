@@ -61,16 +61,17 @@ sup { font-size: 0.55em; }
   background: linear-gradient(#f7c78a 0%, #f0a967 34%, #d97f4e 58%, #a4552f 78%, #6d3420 100%);
 }
 
+/* Stacking: painted scene (1) → film (2) → petals + vignette (3) →
+   titles (4) → scroll cue (5) → curtain (6) */
 .hero__video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  z-index: 1;
-  opacity: 0.9;
+  z-index: 2;
+  will-change: transform;
 }
-.hero__video.is-hidden { display: none; }
 
-.hero__scene { position: absolute; inset: 0; z-index: 2; }
+.hero__scene { position: absolute; inset: 0; z-index: 1; }
 .hero__layer { position: absolute; inset: -12% 0; will-change: transform; }
 
 .hero__sky {
@@ -137,8 +138,11 @@ sup { font-size: 0.55em; }
   100% { transform: translateY(114vh) translateX(24px) rotate(420deg); opacity: 0; }
 }
 
+.hero > .hero__petals { z-index: 3; }
+
 .hero__vignette {
   position: absolute; inset: 0;
+  z-index: 3;
   background:
     radial-gradient(ellipse 140% 90% at 50% 45%, transparent 55%, rgba(58, 16, 8, 0.55) 100%),
     linear-gradient(rgba(46, 12, 6, 0.35), transparent 26%, transparent 70%, rgba(58, 14, 8, 0.5));
@@ -146,6 +150,7 @@ sup { font-size: 0.55em; }
 
 .hero__content {
   position: relative; z-index: 4;
+  will-change: transform, opacity;
   height: 100%;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center;
@@ -187,6 +192,7 @@ sup { font-size: 0.55em; }
   position: absolute; left: 50%; bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px));
   transform: translateX(-50%);
   z-index: 5;
+  /* keep above the film */
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   text-decoration: none; color: #fff3d8;
 }
@@ -324,6 +330,7 @@ sup { font-size: 0.55em; }
   color: #6b3d1a;
   max-width: 46ch;
 }
+.event-card__subitem { display: inline-flex; align-items: center; gap: 12px; }
 .event-card__sub i { font-style: normal; font-size: 0.6rem; color: #c69b4e; }
 
 .event-card__venue { margin-top: 14px; font-size: clamp(0.98rem, 3.3vw, 1.1rem); line-height: 1.7; color: var(--ink); }
@@ -378,10 +385,6 @@ sup { font-size: 0.55em; }
 .footer__made { margin-top: 22px; font-size: 0.82rem; color: rgba(243, 227, 182, 0.55); }
 .footer__made span { color: var(--gold); }
 
-/* reveal on scroll */
-.reveal { opacity: 0; transform: translateY(34px); transition: opacity 1s var(--ease), transform 1s var(--ease); transition-delay: var(--rd, 0s); }
-.reveal.is-in { opacity: 1; transform: none; }
-
 /* ─────────────── Desktop ─────────────── */
 @media (min-width: 720px) {
   .br-desk { display: inline; }
@@ -395,6 +398,4 @@ sup { font-size: 0.55em; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .lantern, .petal, .hero__monogram, .hero__scroll-chev, .hero__sun, .loader__mark { animation: none !important; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .hero__layer, .hero__content { transform: none !important; }
 }
