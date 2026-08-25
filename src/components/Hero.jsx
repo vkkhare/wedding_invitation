@@ -25,17 +25,20 @@ const PETALS = [
   { x: '86%', d: '16s', delay: '-11s' },
 ]
 
+/* The hero film at public/assets/hero.mp4; the preview bundler swaps this
+   string for a data URI, which needs no existence check. */
+const HERO_SRC = 'assets/hero.mp4'
+
 export default function Hero() {
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const { scrollY } = useScroll()
-  /* The wedding film: attach it at public/assets/hero.mp4 — until then the
-     painted lantern-dusk scene stands in. */
   const [hasVideo, setHasVideo] = useState(true)
 
   useEffect(() => {
+    if (HERO_SRC.startsWith('data:')) return
     /* <source> error events are unreliable across browsers, so verify directly */
-    fetch('assets/hero.mp4', { method: 'HEAD' })
+    fetch(HERO_SRC, { method: 'HEAD' })
       .then((r) => setHasVideo(r.ok))
       .catch(() => setHasVideo(false))
   }, [])
@@ -93,7 +96,7 @@ export default function Hero() {
           aria-hidden="true"
           onError={() => setHasVideo(false)}
         >
-          <source src="assets/hero.mp4" type="video/mp4" onError={() => setHasVideo(false)} />
+          <source src={HERO_SRC} type="video/mp4" onError={() => setHasVideo(false)} />
         </motion.video>
       )}
 
