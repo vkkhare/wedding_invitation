@@ -45,7 +45,7 @@ export default function Invocation() {
           to bless the couple on the auspicious occasion of the marriage of their son
         </Reveal>
 
-        <Reveal as="h2" className="invite-word script">Invite</Reveal>
+        <Reveal as="p" className="hosts-line">Invite</Reveal>
         <Reveal as="p" className="hosts-line">you to join us in the wedding celebrations of</Reveal>
       </div>
     </section>
