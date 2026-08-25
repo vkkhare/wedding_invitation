@@ -48,14 +48,9 @@ export default function Hero() {
   const yNear = drift(scrollY, 0.42)
   const yLanterns = drift(scrollY, 0.6)
   const yPetals = drift(scrollY, 0.75)
-  const yContent = drift(scrollY, 0.9)
 
   const videoScale = useTransform(scrollY, [0, 900], [1, 1.18])
   const videoY = drift(scrollY, 0.3)
-  const contentOpacity = useTransform(scrollY, (v) => {
-    const h = (ref.current?.offsetHeight || window.innerHeight) * 0.55
-    return Math.max(0, 1 - v / h)
-  })
 
   const still = { y: 0 }
   const mv = (y) => (reduce ? still : { y })
@@ -108,26 +103,7 @@ export default function Hero() {
       </motion.div>
       <div className="hero__vignette" aria-hidden="true" />
 
-      <motion.div
-        className="hero__content"
-        style={reduce ? undefined : { y: yContent, opacity: contentOpacity }}
-      >
-        <p className="hero__mantra lang-dev">॥ श्री गणेशाय नमः ॥</p>
-        <img className="hero__monogram" src="assets/monogram.png" alt="VP monogram" />
-        <h1 className="hero__names">
-          <span className="hero__name">Varun</span>
-          <span className="hero__weds">weds</span>
-          <span className="hero__name">Prarita</span>
-        </h1>
-        <div className="hero__rule">
-          <span></span>
-          <i>❖</i>
-          <span></span>
-        </div>
-        <p className="hero__date">
-          Thursday · 26<sup>th</sup> November 2026
-        </p>
-      </motion.div>
+      <h1 className="visually-hidden">Varun weds Prarita — 26 November 2026</h1>
 
       <a className="hero__scroll" href="#invocation" aria-label="Scroll to open the invitation">
         <span className="hero__scroll-text">Scroll to Open Invitation</span>

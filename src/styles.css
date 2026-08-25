@@ -25,6 +25,7 @@ body {
 }
 
 .script { font-family: "Great Vibes", cursive; font-weight: 400; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .lang-dev { font-family: "Noto Serif Devanagari", "Cormorant Garamond", serif; }
 
 img { max-width: 100%; display: block; }
