@@ -130,9 +130,12 @@ export default function Hero() {
         <p className="hero__place">Utopia Resort, Sanchi · Vidisha</p>
       </motion.div>
 
-      <a className="hero__scroll" href="#invocation" aria-label="Scroll to invitation">
-        <span className="hero__scroll-text">Open Invitation</span>
-        <span className="hero__scroll-chev"></span>
+      <a className="hero__scroll" href="#invocation" aria-label="Scroll to open the invitation">
+        <span className="hero__scroll-text">Scroll to Open Invitation</span>
+        <span className="hero__scroll-chevs">
+          <span className="hero__scroll-chev"></span>
+          <span className="hero__scroll-chev hero__scroll-chev--2"></span>
+        </span>
       </a>
 
       <div className="hero__curtain" aria-hidden="true">

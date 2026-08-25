@@ -203,15 +203,34 @@ sup { font-size: 0.55em; }
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   text-decoration: none; color: #fff3d8;
 }
-.hero__scroll-text { font-family: "Marcellus", serif; font-size: 0.72rem; letter-spacing: 0.32em; text-indent: 0.32em; text-transform: uppercase; }
-.hero__scroll-chev {
-  width: 12px; height: 12px;
-  border-right: 2px solid var(--gold-bright);
-  border-bottom: 2px solid var(--gold-bright);
-  transform: rotate(45deg);
-  animation: chevBob 1.8s ease-in-out infinite;
+.hero__scroll-text {
+  font-family: "Marcellus", serif;
+  font-size: clamp(0.78rem, 2.8vw, 0.9rem);
+  letter-spacing: 0.22em; text-indent: 0.22em;
+  text-transform: uppercase;
+  color: #ffefc6;
+  padding: 13px 24px;
+  border: 1.5px solid rgba(240, 212, 138, 0.9);
+  border-radius: 999px;
+  background: rgba(48, 10, 8, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 24px rgba(40, 8, 6, 0.45), inset 0 0 14px rgba(240, 212, 138, 0.12);
+  animation: cueBreathe 2.6s ease-in-out infinite;
+  white-space: nowrap;
 }
-@keyframes chevBob { 0%,100% { transform: rotate(45deg) translate(0,0); opacity: 1; } 50% { transform: rotate(45deg) translate(5px,5px); opacity: 0.5; } }
+@keyframes cueBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
+.hero__scroll-chevs { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 2px; }
+.hero__scroll-chev {
+  width: 14px; height: 14px;
+  border-right: 2.5px solid #ffe089;
+  border-bottom: 2.5px solid #ffe089;
+  transform: rotate(45deg);
+  filter: drop-shadow(0 2px 6px rgba(40, 8, 6, 0.6));
+  animation: chevBob 1.6s ease-in-out infinite;
+}
+.hero__scroll-chev--2 { margin-top: -7px; animation-delay: 0.22s; opacity: 0.7; }
+@keyframes chevBob { 0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 1; } 50% { transform: rotate(45deg) translate(6px, 6px); opacity: 0.35; } }
 
 .hero__curtain { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 6; line-height: 0; }
 .hero__curtain svg { width: 100%; height: clamp(48px, 9vw, 120px); }
