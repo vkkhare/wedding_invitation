@@ -18,10 +18,7 @@ export default function Couple() {
           Daughter of Shri Prakash Chandra Agrawal &amp; Smt. Shalini Agrawal
         </Reveal>
 
-        <Reveal as="figure" className="monogram-medallion">
-          <img src="assets/monogram.png" alt="V and P intertwined monogram" />
-        </Reveal>
-
+        <Reveal as="p" className="family-head">A Message from Maa</Reveal>
         <Reveal as="p" className="lang-dev couplet">
           आज इस आँगन में एक नई किरण उतरी है,<br />
           जैसे दुआओं की चादर घर पर बिखरी है।
