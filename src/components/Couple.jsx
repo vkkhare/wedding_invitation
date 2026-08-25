@@ -6,8 +6,7 @@ export default function Couple() {
       <div className="wrap">
         <Reveal as="h2" className="couple-name">Varun</Reveal>
         <Reveal as="p" className="couple-parent">
-          Son of Dr. Shobha &amp; Dr. Abhay Khare<br />
-          Grandson of Late Shri K. B. Khare &amp; Late Smt. Tara Khare
+          Son of Dr. Shobha &amp; Dr. Abhay Khare
         </Reveal>
 
         <Reveal className="couple-amp">
