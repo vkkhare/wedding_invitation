@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 
@@ -132,6 +132,48 @@ function HaldiScene() {
   )
 }
 
+const MusicIcon = () => (
+  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M24 46 V16 l24 -6 v30" />
+    <ellipse cx="18" cy="46" rx="6" ry="5" />
+    <ellipse cx="42" cy="40" rx="6" ry="5" />
+    <path d="M24 24 l24 -6" />
+  </svg>
+)
+
+/* 25 Nov evening — Sangeet as a living video card */
+function SangeetScene() {
+  const [muted, setMuted] = useState(true)
+  return (
+    <div className="bigday bigday--sangeet">
+      <Reveal className="sangeet__media">
+        <video src="assets/sangeet.mp4" autoPlay muted={muted} loop playsInline preload="metadata" />
+        <button
+          type="button"
+          className="sangeet__sound"
+          onClick={() => setMuted((m) => !m)}
+          aria-label={muted ? 'Play with sound' : 'Mute'}
+        >
+          {muted ? (
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.6 3 3.2 3.2-1.4 1.4-3.2-3.2-3.2 3.2-1.4-1.4L13.8 12l-3.2-3.2 1.4-1.4 3.2 3.2 3.2-3.2 1.4 1.4L16.6 12Z"/></svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4Zm-2.5-8.5v2.1a6.5 6.5 0 0 1 0 12.8v2.1a8.5 8.5 0 0 0 0-17Z"/></svg>
+          )}
+        </button>
+      </Reveal>
+      <Reveal className="bigday__head">
+        <div className="event-card__icon" aria-hidden="true"><MusicIcon /></div>
+        <p className="event-card__kicker">An Evening of Music &amp; Dance</p>
+        <h3 className="bigday__title script">Sangeet</h3>
+        <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
+        <div className="event-card__sub">
+          <span className="event-card__subitem"><span>{nb('8:00 pm onwards')}</span></span>
+        </div>
+      </Reveal>
+    </div>
+  )
+}
+
 export default function Events() {
   return (
     <section className="section section--cream" id="events">
@@ -153,6 +195,8 @@ export default function Events() {
 
       {/* 25 Nov — Haldi as a full painted scene */}
       <HaldiScene />
+
+      <SangeetScene />
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
       <div className="bigday">
