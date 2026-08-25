@@ -115,8 +115,8 @@ function HaldiScene() {
     <div className="bigday bigday--haldi">
       <Reveal className="bigday__head bigday__head--left">
         <div className="event-card__icon" aria-hidden="true"><HaldiIcon /></div>
-        <p className="event-card__kicker">It's Glow Time</p>
-        <h3 className="bigday__title script">Haldi</h3>
+        <p className="event-card__kicker">A Day of Blessings</p>
+        <h3 className="bigday__title script">Shubh Rasmein</h3>
         <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
         <div className="event-card__sub">
           {['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm'].map((s, i) => (
