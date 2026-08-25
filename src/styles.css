@@ -357,6 +357,11 @@ sup { font-size: 0.55em; }
 }
 .event-card__dir:hover { background: #8a1a1e; color: var(--gold-soft); transform: translateY(-2px); }
 
+/* haldi day: mirror of the big-day composition — details left, art off the right edge */
+.bigday--haldi { grid-template-columns: minmax(0, 46%) minmax(0, 54%); }
+.bigday__art--right { justify-content: flex-end; }
+.bigday__head--left { padding-right: 0; padding-left: clamp(16px, 4vw, 48px); }
+
 /* the big day: jharokha left, headline in the space beside it, schedule below */
 .bigday {
   width: 100%;
@@ -465,6 +470,8 @@ sup { font-size: 0.55em; }
   .bigday { grid-template-columns: minmax(0, 45%) minmax(0, 55%); }
   .bigday__art img { max-width: 640px; }
   .bigday__head { justify-self: center; max-width: 520px; }
+  .bigday--haldi { grid-template-columns: minmax(0, 55%) minmax(0, 45%); }
+  .bigday--haldi .bigday__art img { max-width: 440px; }
 }
 
 /* venue */

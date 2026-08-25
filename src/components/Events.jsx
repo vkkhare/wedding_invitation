@@ -6,15 +6,6 @@ const MAPS_UTOPIA = 'https://www.google.com/maps/search/?api=1&query=Utopia+Reso
 const GCAL =
   'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Varun+weds+Prarita+%E2%80%94+Wedding+%26+Reception&dates=20261126T083000Z/20261126T183000Z&details=Jaimala+4:00+pm+%C2%B7+Phere+5:45+pm+%C2%B7+Reception+%26+Dinner+8:00+pm&location=Utopia+Resort,+Sanchi,+Vidisha'
 
-const HaldiIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 30 h40 q-2 18 -20 20 q-18 -2 -20 -20 Z" />
-    <path d="M20 24 q6 -8 12 0 q6 -8 12 0" />
-    <circle cx="32" cy="16" r="2.4" />
-    <path d="M22 56 h20" />
-  </svg>
-)
-
 const PheraIcon = () => (
   <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
     <path d="M32 8 q10 10 4 18 q10 -2 8 10 q-2 10 -12 12 q-10 -2 -12 -12 q-2 -12 8 -10 q-6 -8 4 -18 Z" />
@@ -24,17 +15,6 @@ const PheraIcon = () => (
 )
 
 const EVENTS = [
-  {
-    day: '25',
-    date: 'Nov 2026',
-    weekday: 'Wednesday',
-    icon: <HaldiIcon />,
-    title: 'Haldi, Sangeet & Engagement',
-    meta: <>Wednesday, November 25<sup>th</sup> 2026</>,
-    sub: ['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm', 'Sangeet & Engagement · 8:00 pm'],
-    venue: 'At Utopia Resort, Sanchi (Vidisha)',
-    actions: [{ label: 'View Directions', href: MAPS_UTOPIA }],
-  },
   {
     day: '26',
     date: 'Nov 2026',
@@ -53,41 +33,6 @@ export { MAPS_UTOPIA, GCAL }
 
 /* Bind times like "8:00 pm" with a non-breaking space so "pm" never wraps alone */
 const nb = (s) => s.replace(/ · (?=\d)/g, ' · ').replace(/ (am|pm)\b/g, ' $1')
-
-function EventCard({ ev }) {
-  return (
-    <Reveal as="article" className={`event-card${ev.main ? ' event-card--main' : ''}`}>
-      <div className="event-card__datebar">
-        <span className="event-card__day">{ev.day}</span>
-        <span className="event-card__mon">
-          {ev.date}
-          <br />
-          {ev.weekday}
-        </span>
-      </div>
-      <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
-      {ev.kicker && <p className="event-card__kicker">{ev.kicker}</p>}
-      <h3 className="event-card__title script">{ev.title}</h3>
-      <p className="event-card__meta">{ev.meta}</p>
-      <div className="event-card__sub">
-        {ev.sub.map((s, i) => (
-          <span key={s} className="event-card__subitem">
-            {i > 0 && <i>❖</i>}
-            <span>{nb(s)}</span>
-          </span>
-        ))}
-      </div>
-      <p className="event-card__venue">{ev.venue}</p>
-      <div className="event-card__actions">
-        {ev.actions.map((a) => (
-          <a key={a.label} className="event-card__dir" href={a.href} target="_blank" rel="noopener noreferrer">
-            {a.label}
-          </a>
-        ))}
-      </div>
-    </Reveal>
-  )
-}
 
 /* Couple on the palace jharokha, drifting beside the wedding-day card */
 function JharokhaArt() {
@@ -132,6 +77,61 @@ function BigDayHead({ ev }) {
   )
 }
 
+const HaldiIcon = () => (
+  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 30 h40 q-2 18 -20 20 q-18 -2 -20 -20 Z" />
+    <path d="M20 24 q6 -8 12 0 q6 -8 12 0" />
+    <circle cx="32" cy="16" r="2.4" />
+    <path d="M22 56 h20" />
+  </svg>
+)
+
+/* Haldi art: groom showering marigolds from the jharokha, bride aglow below */
+function HaldiArt() {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], [46, -34])
+
+  return (
+    <figure className="bigday__art bigday__art--right" ref={ref} aria-hidden="true">
+      <motion.img
+        src="assets/haldi.webp"
+        alt=""
+        loading="lazy"
+        style={reduce ? undefined : { y }}
+        initial={reduce ? false : { opacity: 0, x: 40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </figure>
+  )
+}
+
+/* 25 Nov — mirrored composition: details on the left, art off the right edge */
+function HaldiScene() {
+  return (
+    <div className="bigday bigday--haldi">
+      <Reveal className="bigday__head bigday__head--left">
+        <div className="event-card__icon" aria-hidden="true"><HaldiIcon /></div>
+        <p className="event-card__kicker">It's Glow Time</p>
+        <h3 className="bigday__title script">Haldi, Sangeet &amp; Engagement</h3>
+        <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
+        <div className="event-card__sub">
+          {['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm', 'Sangeet & Engagement · 8:00 pm'].map((s, i) => (
+            <span key={s} className="event-card__subitem">
+              {i > 0 && <i>\u2756</i>}
+              <span>{nb(s)}</span>
+            </span>
+          ))}
+        </div>
+      </Reveal>
+      <HaldiArt />
+    </div>
+  )
+}
+
 export default function Events() {
   return (
     <section className="section section--cream" id="events">
@@ -149,10 +149,10 @@ export default function Events() {
         </Reveal>
         <Reveal as="h2" className="script section-script section-script--dark">Wedding Festivities</Reveal>
 
-        {EVENTS.filter((ev) => !ev.main).map((ev) => (
-          <EventCard key={ev.day} ev={ev} />
-        ))}
       </div>
+
+      {/* 25 Nov — Haldi, Sangeet & Engagement as a full painted scene */}
+      <HaldiScene />
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
       <div className="bigday">
