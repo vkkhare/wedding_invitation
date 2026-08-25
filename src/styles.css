@@ -244,8 +244,8 @@ sup { font-size: 0.55em; }
 .shloka-top--dark { color: #9a6a2e; }
 .shloka { font-size: 1.02rem; line-height: 2; margin-top: 20px; color: var(--gold-soft); }
 
-.ganesha { width: clamp(120px, 30vw, 170px); margin: 26px auto 4px; }
-.ganesha svg { width: 100%; filter: drop-shadow(0 0 14px rgba(217, 180, 92, 0.25)); }
+.ganesha { width: clamp(150px, 40vw, 220px); margin: 26px auto 8px; }
+.ganesha img { width: 100%; height: auto; filter: drop-shadow(0 10px 26px rgba(20, 2, 3, 0.45)); }
 
 .orn-divider { display: flex; align-items: center; justify-content: center; gap: 14px; margin: clamp(28px, 6vw, 44px) auto; color: var(--gold); }
 .orn-divider span { width: clamp(60px, 18vw, 130px); height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
