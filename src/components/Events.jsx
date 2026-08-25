@@ -3,19 +3,8 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import Reveal from './Reveal.jsx'
 
 const MAPS_UTOPIA = 'https://www.google.com/maps/search/?api=1&query=Utopia+Resort+Sanchi+Vidisha'
-const MAPS_HOME =
-  'https://www.google.com/maps/search/?api=1&query=Sterling+Oasis%2C+Rajat+Vihar%2C+Hoshangabad+Road%2C+Bhopal'
 const GCAL =
   'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Varun+weds+Prarita+%E2%80%94+Wedding+%26+Reception&dates=20261126T083000Z/20261126T183000Z&details=Jaimala+4:00+pm+%C2%B7+Phere+5:45+pm+%C2%B7+Reception+%26+Dinner+8:00+pm&location=Utopia+Resort,+Sanchi,+Vidisha'
-
-const KalashIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 26 h20 M20 26 q-8 14 4 26 q8 6 16 0 q12 -12 4 -26" />
-    <path d="M24 20 q8 -6 16 0 l2 6 h-20 Z" />
-    <path d="M32 6 v8 M26 10 l6 4 6 -4" />
-    <path d="M24 56 h16" />
-  </svg>
-)
 
 const HaldiIcon = () => (
   <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -35,17 +24,6 @@ const PheraIcon = () => (
 )
 
 const EVENTS = [
-  {
-    day: '23',
-    date: 'Nov 2026',
-    weekday: 'Monday',
-    icon: <KalashIcon />,
-    title: 'Ganesh & Mata Pujan',
-    meta: <>Monday, November 23<sup>rd</sup> 2026 · 9:00 am onwards</>,
-    sub: ['Mandap · 11:00 am', 'Mehendi · 4:00 pm'],
-    venue: 'At Residence — D-52, Sterling Oasis, Rajat Vihar, Hoshangabad Road, Bhopal',
-    actions: [{ label: 'View Directions', href: MAPS_HOME }],
-  },
   {
     day: '25',
     date: 'Nov 2026',
