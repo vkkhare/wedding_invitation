@@ -127,7 +127,6 @@ export default function Hero() {
         <p className="hero__date">
           Thursday · 26<sup>th</sup> November 2026
         </p>
-        <p className="hero__place">Utopia Resort, Sanchi · Vidisha</p>
       </motion.div>
 
       <a className="hero__scroll" href="#invocation" aria-label="Scroll to open the invitation">
