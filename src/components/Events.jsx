@@ -116,12 +116,12 @@ function HaldiScene() {
       <Reveal className="bigday__head bigday__head--left">
         <div className="event-card__icon" aria-hidden="true"><HaldiIcon /></div>
         <p className="event-card__kicker">It's Glow Time</p>
-        <h3 className="bigday__title script">Haldi, Sangeet &amp; Engagement</h3>
+        <h3 className="bigday__title script">Haldi</h3>
         <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
         <div className="event-card__sub">
-          {['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm', 'Sangeet & Engagement · 8:00 pm'].map((s, i) => (
+          {['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm'].map((s, i) => (
             <span key={s} className="event-card__subitem">
-              {i > 0 && <i>\u2756</i>}
+              {i > 0 && <i>❖</i>}
               <span>{nb(s)}</span>
             </span>
           ))}
@@ -151,7 +151,7 @@ export default function Events() {
 
       </div>
 
-      {/* 25 Nov — Haldi, Sangeet & Engagement as a full painted scene */}
+      {/* 25 Nov — Haldi as a full painted scene */}
       <HaldiScene />
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
