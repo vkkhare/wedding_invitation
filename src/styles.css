@@ -440,6 +440,7 @@ sup { font-size: 0.55em; }
 
 .couplet { font-size: 1.05rem; line-height: 2.1; margin-top: clamp(28px, 7vw, 44px); color: var(--gold-soft); font-style: normal; }
 .couplet-sign { font-style: italic; font-size: 1.08rem; color: var(--gold-bright); margin-top: 10px; letter-spacing: 0.06em; }
+.family-names--little { font-style: italic; font-size: 0.95em; margin-top: 8px; }
 
 /* countdown */
 .section-script { font-size: clamp(2.6rem, 10vw, 4rem); color: var(--gold-bright); margin-bottom: clamp(16px, 4vw, 26px); line-height: 1.25; text-shadow: 0 4px 26px rgba(20, 2, 3, 0.5); }

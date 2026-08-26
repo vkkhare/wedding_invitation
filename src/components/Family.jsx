@@ -17,7 +17,12 @@ export default function Family() {
         <Divider glyph="✻" />
 
         <Reveal as="p" className="family-head">Special Request</Reveal>
-        <Reveal as="p" className="family-names">Kratika Khare &amp; Abhinav Saxena · Inaya</Reveal>
+        <Reveal as="p" className="family-names">
+          Abhinav
+          <br />
+          Kratika
+        </Reveal>
+        <Reveal as="p" className="family-names family-names--little">Mama&rsquo;s little girl — Inaya</Reveal>
 
         <Divider glyph="✻" />
 
