@@ -66,7 +66,8 @@ export default function Hero() {
         <img src="assets/palace-bg.webp" alt="" />
       </motion.div>
 
-      {/* Ma's blessing takes the lower half */}
+      {/* Ma's blessing: baked into the backdrop on phones (plus her signature overlay);
+         desktop's painted scene carries the HTML verse */}
       <div className="hero__poem">
         <p className="lang-dev">
           आज इस आँगन में एक नई किरण उतरी है,<br />
@@ -74,6 +75,7 @@ export default function Hero() {
         </p>
         <p className="hero__poem-sign">— Ma</p>
       </div>
+      <p className="hero__maa lang-dev">— माँ</p>
 
       {/* Atmosphere above the film: drifting petals + vignette for text legibility */}
       <motion.div className="hero__layer hero__petals" style={mv(yPetals)} aria-hidden="true">
