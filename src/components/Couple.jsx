@@ -17,12 +17,6 @@ export default function Couple() {
         <Reveal as="p" className="couple-parent">
           Daughter of Shri Prakash Chandra Agrawal &amp; Smt. Shalini Agrawal
         </Reveal>
-
-        <Reveal as="p" className="lang-dev couplet">
-          आज इस आँगन में एक नई किरण उतरी है,<br />
-          जैसे दुआओं की चादर घर पर बिखरी है।
-        </Reveal>
-        <Reveal as="p" className="couplet-sign">— Ma</Reveal>
       </div>
     </section>
   )

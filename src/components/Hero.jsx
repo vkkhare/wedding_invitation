@@ -56,7 +56,7 @@ export default function Hero() {
   const mv = (y) => (reduce ? still : { y })
 
   return (
-    <header className="hero" id="hero" ref={ref}>
+    <header className={`hero${hasVideo ? " hero--film" : ""}`} id="hero" ref={ref}>
       {/* Layered painted scene — fallback behind the film, and the hero itself until the film is attached */}
       <div className="hero__scene" aria-hidden="true">
         <motion.div className="hero__layer hero__sky" style={mv(ySky)} />
@@ -78,22 +78,32 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* The film plays above the painted scene, below the atmosphere + titles */}
+      {/* The film: palace and lanterns only — framed strip, mandap kept out of frame */}
       {hasVideo && (
-        <motion.video
-          className="hero__video"
-          style={reduce ? undefined : { scale: videoScale, y: videoY }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-          onError={() => setHasVideo(false)}
-        >
-          <source src={HERO_SRC} type="video/mp4" onError={() => setHasVideo(false)} />
-        </motion.video>
+        <div className="hero__film-wrap" aria-hidden="true">
+          <motion.video
+            className="hero__video"
+            style={reduce ? undefined : { scale: videoScale, y: videoY }}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onError={() => setHasVideo(false)}
+          >
+            <source src={HERO_SRC} type="video/mp4" onError={() => setHasVideo(false)} />
+          </motion.video>
+        </div>
       )}
+
+      {/* Ma's blessing takes the lower half */}
+      <div className="hero__poem">
+        <p className="lang-dev">
+          आज इस आँगन में एक नई किरण उतरी है,<br />
+          जैसे दुआओं की चादर घर पर बिखरी है।
+        </p>
+        <p className="hero__poem-sign">— Ma</p>
+      </div>
 
       {/* Atmosphere above the film: drifting petals + vignette for text legibility */}
       <motion.div className="hero__layer hero__petals" style={mv(yPetals)} aria-hidden="true">
