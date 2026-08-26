@@ -176,7 +176,9 @@ sup { font-size: 0.55em; }
 .hero__bg-inner { position: relative; width: 100%; }
 .hero__bg img { width: 100%; height: auto; }
 .hero__verse {
-  position: absolute; left: 10px; right: 10px; top: 61.7%;
+  position: absolute; left: 10px; right: 10px;
+  top: min(calc(100vw * 1.097), calc(100svh - 252px));
+  z-index: 4;
   text-align: center;
   color: #ffeec2;
   font-size: clamp(1.2rem, 5.4vw, 1.65rem);
@@ -184,13 +186,15 @@ sup { font-size: 0.55em; }
   text-shadow: 0 0 16px rgba(255, 150, 40, 0.9), 0 2px 6px rgba(80, 20, 0, 0.8);
 }
 .hero__verse-maa {
-  position: absolute; left: 0; right: 0; top: 89.5%;
+  position: absolute; left: 0; right: 0;
+  top: min(calc(100vw * 1.591), calc(100svh - 152px));
+  z-index: 4;
   text-align: center;
   color: #ffeec2;
   font-size: clamp(1.5rem, 6.4vw, 2rem);
   text-shadow: 0 0 16px rgba(255, 150, 40, 0.9), 0 2px 6px rgba(80, 20, 0, 0.8);
 }
-@media (min-width: 960px) { .hero__bg { display: none; } }
+@media (min-width: 960px) { .hero__bg, .hero__verse, .hero__verse-maa { display: none; } }
 
 .hero__poem {
   position: absolute; left: 24px; right: 24px; top: 47svh;

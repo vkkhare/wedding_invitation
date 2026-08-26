@@ -62,16 +62,17 @@ export default function Hero() {
       </div>
 
       {/* Full palace backdrop composed from the film (phones); desktop keeps the painted scene */}
-      <motion.div className="hero__bg" style={mv(yFar)}>
+      <motion.div className="hero__bg" style={mv(yFar)} aria-hidden="true">
         <div className="hero__bg-inner">
           <img src="assets/palace-bg.webp" alt="" />
-          <div className="hero__verse lang-dev">
-            <p>आज इस आंगन में एक नई किरण उतरी है</p>
-            <p>जैसे दुआओं की चादर घर पे बिखरी है</p>
-          </div>
-          <p className="hero__verse-maa lang-dev">— माँ</p>
         </div>
       </motion.div>
+
+      <div className="hero__verse lang-dev">
+        <p>आज इस आंगन में एक नई किरण उतरी है</p>
+        <p>जैसे दुआओं की चादर घर पे बिखरी है</p>
+      </div>
+      <p className="hero__verse-maa lang-dev">— माँ</p>
 
       {/* Ma's blessing: baked into the backdrop on phones (plus her signature overlay);
          desktop's painted scene carries the HTML verse */}
