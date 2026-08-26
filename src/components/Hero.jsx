@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 /* Parallax speeds: 0 = pinned to the page, 1 = scrolls away at full speed.
@@ -25,38 +25,21 @@ const PETALS = [
   { x: '86%', d: '16s', delay: '-11s' },
 ]
 
-/* The hero film at public/assets/hero.mp4; the preview bundler swaps this
-   string for a data URI, which needs no existence check. */
-const HERO_SRC = 'assets/hero.mp4'
-
 export default function Hero() {
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const { scrollY } = useScroll()
-  const [hasVideo, setHasVideo] = useState(true)
-
-  useEffect(() => {
-    if (HERO_SRC.startsWith('data:')) return
-    /* <source> error events are unreliable across browsers, so verify directly */
-    fetch(HERO_SRC, { method: 'HEAD' })
-      .then((r) => setHasVideo(r.ok))
-      .catch(() => setHasVideo(false))
-  }, [])
-
   const ySky = drift(scrollY, 0.12)
   const yFar = drift(scrollY, 0.26)
   const yNear = drift(scrollY, 0.42)
   const yLanterns = drift(scrollY, 0.6)
   const yPetals = drift(scrollY, 0.75)
 
-  const videoScale = useTransform(scrollY, [0, 900], [1, 1.18])
-  const videoY = drift(scrollY, 0.3)
-
   const still = { y: 0 }
   const mv = (y) => (reduce ? still : { y })
 
   return (
-    <header className={`hero${hasVideo ? " hero--film" : ""}`} id="hero" ref={ref}>
+    <header className="hero" id="hero" ref={ref}>
       {/* Layered painted scene — fallback behind the film, and the hero itself until the film is attached */}
       <div className="hero__scene" aria-hidden="true">
         <motion.div className="hero__layer hero__sky" style={mv(ySky)} />
@@ -78,23 +61,10 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* The film: palace and lanterns only — framed strip, mandap kept out of frame */}
-      {hasVideo && (
-        <div className="hero__film-wrap" aria-hidden="true">
-          <motion.video
-            className="hero__video"
-            style={reduce ? undefined : { scale: videoScale, y: videoY }}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onError={() => setHasVideo(false)}
-          >
-            <source src={HERO_SRC} type="video/mp4" onError={() => setHasVideo(false)} />
-          </motion.video>
-        </div>
-      )}
+      {/* Full palace backdrop composed from the film (phones); desktop keeps the painted scene */}
+      <motion.div className="hero__bg" style={mv(yFar)} aria-hidden="true">
+        <img src="assets/palace-bg.webp" alt="" />
+      </motion.div>
 
       {/* Ma's blessing takes the lower half */}
       <div className="hero__poem">

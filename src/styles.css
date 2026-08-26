@@ -164,25 +164,11 @@ sup { font-size: 0.55em; }
   background: linear-gradient(#ece2cd 0%, #f2d6a8 26%, #edbd7f 46%, #dc9a5c 64%, #b06a3a 82%, #7c4526 100%);
 }
 
-/* Stacking: painted scene (1) → film strip (2) → petals + vignette (3) →
+/* Stacking: painted scene (1) → palace backdrop (2) → petals + vignette (3) →
    poem (4) → scroll cue (7) → curtain (6) */
-.hero__film-wrap {
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 42svh;
-  z-index: 2;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(#000 76%, transparent);
-  mask-image: linear-gradient(#000 76%, transparent);
-}
-.hero__video {
-  width: 100%; height: 118%;
-  object-fit: cover;
-  object-position: top;
-  will-change: transform;
-  transform-origin: top center;
-}
-/* in film mode the painted palace steps aside; the dusk gradient stays */
-.hero--film .hero__palace-far, .hero--film .hero__palace-near, .hero--film .hero__vignette { display: none; }
+.hero__bg { position: absolute; inset: 0; z-index: 2; will-change: transform; }
+.hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+@media (min-width: 960px) { .hero__bg { display: none; } }
 
 .hero__poem {
   position: absolute; left: 24px; right: 24px; top: 47svh;
@@ -201,17 +187,7 @@ sup { font-size: 0.55em; }
 .hero__poem-sign { font-style: italic; font-size: 1.15rem; color: #5e2c10; margin-top: 12px; letter-spacing: 0.06em; text-shadow: 0 1px 0 rgba(255, 244, 220, 0.55); }
 
 @media (min-width: 960px) {
-  .hero__film-wrap {
-    left: 50%; right: auto; top: 4svh;
-    width: min(560px, 90vw);
-    height: 46svh;
-    transform: translateX(-50%);
-    border-radius: 22px;
-    border: 1px solid rgba(240, 200, 120, 0.6);
-    -webkit-mask-image: none; mask-image: none;
-    box-shadow: 0 24px 60px rgba(60, 16, 8, 0.35);
-  }
-  .hero__poem { top: 56svh; }
+  .hero__poem { top: 52svh; }
 }
 
 .hero__scene { position: absolute; inset: 0; z-index: 1; }
