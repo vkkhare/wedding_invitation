@@ -8,7 +8,6 @@ export default function Family() {
   return (
     <section className="section section--red section--flush" id="family">
       <div className="wrap">
-        <Reveal as="h2" className="script section-script">With Love From Us</Reveal>
         <Reveal as="p" className="count-copy">
           Thank you for being part of our journey. Your presence at the wedding celebrations will
           enhance the joy of the occasion and add blessings to this happy union.
