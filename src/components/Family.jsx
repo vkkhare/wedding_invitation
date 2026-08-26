@@ -19,13 +19,6 @@ export default function Family() {
         <Reveal as="p" className="family-head">Special Request</Reveal>
         <Reveal as="p" className="family-names">Kratika Khare &amp; Abhinav Saxena · Inaya</Reveal>
 
-        <Reveal as="p" className="family-head">R.S.V.P.</Reveal>
-        <Reveal as="p" className="family-names">
-          Devendra Khare
-          <br />
-          Khare &amp; Shrivastava Families
-        </Reveal>
-
         <Divider glyph="✻" />
 
         <Reveal as="h2" className="script section-script rsvp-script">
