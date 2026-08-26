@@ -2,7 +2,7 @@ import Reveal from './Reveal.jsx'
 import { Divider } from './Invocation.jsx'
 
 const WHATSAPP =
-  'https://wa.me/917898527805?text=Namaste!%20We%20would%20be%20delighted%20to%20join%20the%20wedding%20celebrations%20of%20Varun%20%26%20Prarita.%20%E2%80%94'
+  'https://wa.me/917898527805?text=Namaste!%20We%20would%20be%20delighted%20to%20join%20the%20wedding%20celebrations%20of%20Varun%20%26%20Prarita.'
 
 export default function Family() {
   return (
