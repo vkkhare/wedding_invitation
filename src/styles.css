@@ -169,9 +169,9 @@ sup { font-size: 0.55em; }
 .hero__bg {
   position: absolute; inset: 0; z-index: 2;
   will-change: transform;
-  display: flex; align-items: center; justify-content: center;
-  /* letterbox bands blend into the artwork's own edge tones */
-  background: linear-gradient(180deg, #7d4935 0%, #6f4230 12%, #46150a 88%, #460f04 100%);
+  display: flex; align-items: flex-start; justify-content: center;
+  /* artwork anchors to the top; the band below blends into its floor tones */
+  background: linear-gradient(180deg, #46150a 0%, #40120a 70%, #2e0b05 100%);
 }
 .hero__bg img { width: 100%; height: auto; }
 @media (min-width: 960px) { .hero__bg { display: none; } }
