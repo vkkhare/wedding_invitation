@@ -75,7 +75,6 @@ export default function Hero() {
         </p>
         <p className="hero__poem-sign">— Ma</p>
       </div>
-      <p className="hero__maa lang-dev">— माँ</p>
 
       {/* Atmosphere above the film: drifting petals + vignette for text legibility */}
       <motion.div className="hero__layer hero__petals" style={mv(yPetals)} aria-hidden="true">
