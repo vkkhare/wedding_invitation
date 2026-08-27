@@ -1,9 +1,13 @@
 name: Deploy to GitHub Pages
 
-# Hosting moved to Netlify (https://praritawedsvarun.online), which
-# builds on every push by itself. This workflow is kept as a manual backup
-# for GitHub Pages — trigger it from the Actions tab if ever needed.
+# Hosting for https://praritawedsvarun.online. Builds and publishes on every
+# push to main, and can also be run by hand from the Actions tab.
+#
+# public/CNAME carries the custom domain into dist/, so each deploy re-asserts
+# it; without that file Pages can drop the domain back to github.io.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

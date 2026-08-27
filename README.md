@@ -47,14 +47,17 @@ npm run build    # production build → dist/
 
 ## Hosting
 
-Netlify builds and deploys on every push to the production branch
-(`main`); build settings are pinned in `netlify.toml`.
+GitHub Pages, from `.github/workflows/deploy.yml` — it builds and publishes
+on every push to `main`, and can also be run by hand from the Actions tab.
+Free, with no bandwidth credits to run out and no host badge on the page.
 
-The site is served from **praritawedsvarun.online**, set as the primary
-domain in Netlify. Netlify keeps its own `*.netlify.app` address for every
-site and it cannot be deleted, but naming a primary domain makes it redirect
-there, so old links still reach the invitation. A custom domain also drops
-the "Powered by Netlify" badge that free sites carry on a netlify.app
-address.
+The site is served at **praritawedsvarun.online**. `public/CNAME` carries the
+domain into `dist/`, so every deploy re-asserts it; delete that file and
+Pages will fall back to the github.io address. GitHub issues the HTTPS
+certificate itself once DNS resolves.
 
-A manual GitHub Pages workflow remains available from the Actions tab as backup.
+`vite.config.js` sets `base: './'`, so assets resolve relatively and the
+build works at a domain root or under a repo subpath alike.
+
+`netlify.toml` is left in place should Netlify ever be wanted again; it is
+inert while Pages is doing the serving.
