@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
+import AlphaVideo from './AlphaVideo.jsx'
 
 const MAPS_UTOPIA = 'https://www.google.com/maps/search/?api=1&query=Utopia+Resort+Sanchi+Vidisha'
 const GCAL =
@@ -141,26 +142,17 @@ const MusicIcon = () => (
   </svg>
 )
 
-/* 25 Nov evening — Sangeet as a living video card */
+/* 25 Nov evening — the couple dancing free on the page, no frame around them */
 function SangeetScene() {
-  const [muted, setMuted] = useState(true)
   return (
     <div className="bigday bigday--sangeet">
-      <Reveal className="sangeet__media">
-        <video src="assets/sangeet.mp4" autoPlay muted={muted} loop playsInline preload="metadata" />
-        <button
-          type="button"
-          className="sangeet__sound"
-          onClick={() => setMuted((m) => !m)}
-          aria-label={muted ? 'Play with sound' : 'Mute'}
-        >
-          {muted ? (
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.6 3 3.2 3.2-1.4 1.4-3.2-3.2-3.2 3.2-1.4-1.4L13.8 12l-3.2-3.2 1.4-1.4 3.2 3.2 3.2-3.2 1.4 1.4L16.6 12Z"/></svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4Zm-2.5-8.5v2.1a6.5 6.5 0 0 1 0 12.8v2.1a8.5 8.5 0 0 0 0-17Z"/></svg>
-          )}
-        </button>
-      </Reveal>
+      <AlphaVideo
+        className="sangeet__media"
+        sources={[
+          { src: 'assets/sangeet-couple.mp4', type: 'video/mp4' },
+          { src: 'assets/sangeet-couple.webm', type: 'video/webm' },
+        ]}
+      />
       <Reveal className="bigday__head">
         <div className="event-card__icon" aria-hidden="true"><MusicIcon /></div>
         <p className="event-card__kicker">An Evening of Music &amp; Dance</p>
