@@ -12,6 +12,14 @@ let js = fs.readFileSync(path.join(dist, 'assets', jsFile), 'utf8')
 
 const dataURI = (p, mime) => `data:${mime};base64,${fs.readFileSync(p).toString('base64')}`
 
+const MIME = { webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg', svg: 'image/svg+xml' }
+const cssInlined = css.replace(/url\(\.\/([^)'"]+)\)/g, (m, f) => {
+  const ext = f.split('.').pop()
+  if (!MIME[ext]) throw new Error('unknown asset type in css: ' + f)
+  return `url('${dataURI(path.join(dist, 'assets', f), MIME[ext])}')`
+})
+if (/url\(\.\//.test(cssInlined)) throw new Error('css asset urls left unreplaced')
+
 let fonts = fs.readFileSync('public/css/fonts.css', 'utf8')
 fonts = fonts.replace(/url\(['"]?\.\.\/assets\/fonts\/([^)'"]+)['"]?\)/g, (m, f) =>
   `url('${dataURI('public/assets/fonts/' + f, 'font/woff2')}')`)
@@ -35,7 +43,7 @@ for (const [ref, [file, mime]] of Object.entries(assets)) {
   js = js.split(`"${ref}"`).join(JSON.stringify(dataURI(file, mime)))
 }
 
-const out = `<title>Varun weds Prarita</title>\n<style>\n${fonts}\n${css}\n</style>\n<div id="root"></div>\n<script type="module">\n${js}\n</script>\n`
+const out = `<title>Varun weds Prarita</title>\n<style>\n${fonts}\n${cssInlined}\n</style>\n<div id="root"></div>\n<script type="module">\n${js}\n</script>\n`
 const dest = process.argv[2] || 'preview.html'
 fs.writeFileSync(dest, out)
 console.log('written', dest, (fs.statSync(dest).size / 1048576).toFixed(2), 'MB')
