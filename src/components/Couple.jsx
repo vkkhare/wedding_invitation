@@ -17,10 +17,6 @@ export default function Couple() {
         <Reveal as="p" className="couple-parent">
           Daughter of Shri Prakash Chandra Agrawal &amp; Smt. Shalini Agrawal
         </Reveal>
-
-        <Reveal className="couple-film">
-          <img src="assets/couple.webp" alt="Portrait of Varun and Prarita" loading="lazy" />
-        </Reveal>
       </div>
     </section>
   )
