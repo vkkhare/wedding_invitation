@@ -17,7 +17,7 @@ export default function App() {
   return (
     <>
       {!introDone && <Intro onDone={finishIntro} />}
-      <Hero />
+      <Hero started={introDone} />
       <main>
         <Invocation />
         <Couple />

@@ -164,67 +164,55 @@ sup { font-size: 0.55em; }
   background: linear-gradient(#ece2cd 0%, #f2d6a8 26%, #edbd7f 46%, #dc9a5c 64%, #b06a3a 82%, #7c4526 100%);
 }
 
-/* Stacking: painted scene (1) → palace backdrop (2) → petals + vignette (3) →
+/* Stacking: painted scene (1) → photograph (2) → torches, petals + vignette (3) →
    poem (4) → scroll cue (7) → curtain (6) */
 .hero__bg {
-  position: absolute; inset: 0; z-index: 2;
+  /* the extra headroom at the top is what the parallax drift eats into, so the
+     picture never pulls away from the edge of the hero */
+  position: absolute; inset: -14% 0 -2%; z-index: 2;
   will-change: transform;
-  display: flex; align-items: flex-start; justify-content: center;
-  /* The film anchors to the top and the band below carries on its floor: the
-     tones are sampled from the film's own bottom edge, rgb(80,17,6) averaged
-     across the clip, so the join reads as the floor falling into shadow
-     rather than as the picture stopping. Covering instead would fill the
-     screen but drop the burnt-in "maa" behind the scroll cue. */
-  background: linear-gradient(180deg, #501106 0%, #3a0c04 38%, #240803 72%, #120401 100%);
+  opacity: 0;
+  transition: opacity 900ms ease;
 }
-.hero__bg-inner { position: relative; width: 100%; }
-.hero__bg img,
-.hero__bg video { display: block; width: 100%; height: auto; }
-/* The film has Ma's blessing burnt into it, so these carry the words for
-   assistive tech without drawing them a second time over the picture. */
-.hero__verse,
-.hero__verse-maa {
-  position: absolute;
-  width: 1px; height: 1px;
-  margin: -1px; padding: 0; border: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+/* the painted scene shows through until the photograph has decoded */
+.hero__bg.is-loaded { opacity: 1; }
+/* Centre fill: whichever framing the screen picks is cropped to its shape,
+   which keeps the palace and the mandap in the middle of the picture. */
+.hero__bg picture { display: contents; }
+.hero__bg-frame {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 50%;
 }
-@media (min-width: 960px) { .hero__bg, .hero__verse, .hero__verse-maa { display: none; } }
 
+/* Ma's blessing, centred in the sky above the mandap — never over the couple */
 .hero__poem {
-  position: absolute; left: 24px; right: 24px; top: 47svh;
+  position: absolute; left: 0; right: 0; top: 9svh;
   z-index: 4;
+  display: flex; justify-content: center;
+  padding: 0 18px;
+  will-change: transform;
+}
+.hero__poem-inner {
+  width: min(760px, 100%);
   text-align: center;
-  color: #6b1013;
-  padding: 18px 8px;
-  background: radial-gradient(ellipse 80% 90% at 50% 50%, rgba(255, 243, 219, 0.4), transparent 75%);
-  border-radius: 24px;
+  padding: 24px 14px;
+  background: radial-gradient(ellipse 74% 94% at 50% 50%, rgba(44, 11, 4, 0.62), transparent 78%);
+  border-radius: 28px;
 }
-.hero__poem .lang-dev {
-  font-size: clamp(1.15rem, 4.6vw, 1.5rem);
-  line-height: 2.15;
-  text-shadow: 0 1px 0 rgba(255, 244, 220, 0.55);
+.hero__poem p {
+  font-size: clamp(1.3rem, 5.6vw, 1.95rem);
+  line-height: 1.75;
+  color: var(--gold-soft);
+  text-shadow: 0 0 26px rgba(255, 168, 66, 0.45), 0 2px 12px rgba(48, 10, 4, 0.9);
 }
-.hero__poem-sign { font-style: italic; font-size: 1.15rem; color: #5e2c10; margin-top: 12px; letter-spacing: 0.06em; text-shadow: 0 1px 0 rgba(255, 244, 220, 0.55); }
-
-.hero__maa {
-  position: absolute; left: 0; right: 0; top: 79svh;
-  z-index: 4;
-  text-align: center;
-  font-size: 1.7rem;
-  color: #ffeec2;
-  text-shadow: 0 0 14px rgba(255, 150, 40, 0.85), 0 2px 6px rgba(80, 20, 0, 0.7);
+.hero__poem .hero__poem-sign {
+  margin-top: 18px;
+  font-size: clamp(1.35rem, 5.8vw, 2rem);
+  color: var(--gold-bright);
+  letter-spacing: 0.08em;
 }
-/* phones: the backdrop carries the verse itself */
-@media (max-width: 959px) {
-  .hero__poem { display: none; }
-}
-@media (min-width: 960px) {
-  .hero__poem { top: 52svh; }
-  .hero__maa { display: none; }
-}
+@media (min-width: 960px) { .hero__poem { top: 5svh; } }
 
 .hero__scene { position: absolute; inset: 0; z-index: 1; }
 .hero__layer { position: absolute; inset: -12% 0; will-change: transform; }
@@ -299,6 +287,48 @@ sup { font-size: 0.55em; }
   55%  { transform: translateY(58vh) translateX(-30px) rotate(200deg); }
   100% { transform: translateY(114vh) translateX(24px) rotate(420deg); opacity: 0; }
 }
+
+/* paper torches: the sprites are cut from the lantern sheet, drifting up the
+   sides of the frame so the mandap and the blessing stay clear */
+.hero > .hero__torches { z-index: 3; }
+.torch {
+  position: absolute;
+  left: var(--x);
+  top: var(--y, 60%);
+  width: calc(34px * var(--s, 1));
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: torchRise var(--d, 32s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+/* the light it throws into the scene */
+.torch::before {
+  content: ""; position: absolute; left: 50%; top: 60%;
+  width: 300%; height: 250%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 190, 100, 0.55) 0%, rgba(255, 140, 44, 0.24) 40%, transparent 70%);
+  mix-blend-mode: screen;
+  animation: torchGlow 3.4s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.torch__body {
+  display: block; position: relative;
+  width: 100%; height: auto;
+  /* the sheet's paper is cream; warmed to the dusk in the photograph and
+     softened a touch so they sit in the scene rather than on it */
+  filter: sepia(0.55) saturate(2.1) hue-rotate(-14deg) brightness(1.04) blur(0.2px)
+          drop-shadow(0 0 12px rgba(255, 164, 60, 0.95));
+  animation: torchSway calc(var(--d, 32s) / 5) ease-in-out infinite alternate;
+}
+@keyframes torchRise {
+  0%   { transform: translate3d(0, 14vh, 0) scale(0.92); opacity: 0; }
+  9%   { opacity: var(--o, 0.85); }
+  50%  { transform: translate3d(var(--sway, 20px), -24vh, 0) scale(1); }
+  88%  { opacity: var(--o, 0.85); }
+  100% { transform: translate3d(calc(var(--sway, 20px) * -0.5), -60vh, 0) scale(1.06); opacity: 0; }
+}
+@keyframes torchSway { from { transform: rotate(-3.5deg); } to { transform: rotate(3.5deg); } }
+@keyframes torchGlow { 0%, 100% { opacity: 0.7; } 45% { opacity: 1; } }
 
 .hero > .hero__petals { z-index: 3; }
 
@@ -711,4 +741,7 @@ sup { font-size: 0.55em; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .lantern, .petal, .hero__monogram, .hero__scroll-chev, .hero__sun, .loader__mark { animation: none !important; }
+  /* the torches keep their glow, they just stop travelling */
+  .torch, .torch::before, .torch__body { animation: none !important; }
+  .torch { opacity: var(--o, 0.85); }
 }

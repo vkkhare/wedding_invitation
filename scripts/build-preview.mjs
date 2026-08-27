@@ -24,8 +24,11 @@ const assets = {
   'assets/haldi.webp': ['public/assets/haldi.webp', 'image/webp'],
   'assets/sangeet-couple.mp4': ['public/assets/sangeet-couple.mp4', 'video/mp4'],
   'assets/ganesha.webp': ['public/assets/ganesha.webp', 'image/webp'],
-  'assets/hero.mp4': ['public/assets/hero.mp4', 'video/mp4'],
-  'assets/hero-poster.webp': ['public/assets/hero-poster.webp', 'image/webp'],
+  'assets/hero-mandap.webp': ['public/assets/hero-mandap.webp', 'image/webp'],
+  'assets/hero-mandap-tall.webp': ['public/assets/hero-mandap-tall.webp', 'image/webp'],
+  'assets/lantern-a.webp': ['public/assets/lantern-a.webp', 'image/webp'],
+  'assets/lantern-b.webp': ['public/assets/lantern-b.webp', 'image/webp'],
+  'assets/lantern-c.webp': ['public/assets/lantern-c.webp', 'image/webp'],
 }
 for (const [ref, [file, mime]] of Object.entries(assets)) {
   js = js.split(`"${ref}"`).join(JSON.stringify(dataURI(file, mime)))

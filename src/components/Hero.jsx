@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 
 /* Parallax speeds: 0 = pinned to the page, 1 = scrolls away at full speed.
@@ -16,6 +16,28 @@ const LANTERNS = [
   { x: '41%', d: '30s', s: 1.25, o: 0.85, delay: '-20s' },
 ]
 
+/* Paper torches drifting up the sides of the mandap. The middle of the frame is
+   left clear on purpose — that is where the couple and Ma's blessing sit.
+   The sprites are cut from the lantern sheet, spelled out one by one so the
+   preview bundler can swap each path for a data URI. */
+const SPRITES = {
+  a: 'assets/lantern-a.webp',
+  b: 'assets/lantern-b.webp',
+  c: 'assets/lantern-c.webp',
+}
+const TORCHES = [
+  { v: 'a', x: '4%', y: '62%', s: 1.15, d: '34s', o: 0.74, sway: '22px' },
+  { v: 'b', x: '13%', y: '74%', s: 0.8, d: '29s', o: 0.72, sway: '-18px', delay: '-11s' },
+  { v: 'c', x: '8%', y: '44%', s: 0.5, d: '38s', o: 0.5, sway: '16px', delay: '-24s' },
+  { v: 'b', x: '17%', y: '55%', s: 0.62, d: '32s', o: 0.56, sway: '20px', delay: '-6s' },
+  { v: 'a', x: '2%', y: '84%', s: 0.7, d: '27s', o: 0.54, sway: '-14px', delay: '-19s' },
+  { v: 'a', x: '87%', y: '66%', s: 1.05, d: '31s', o: 0.72, sway: '-20px', delay: '-3s' },
+  { v: 'c', x: '94%', y: '48%', s: 0.55, d: '36s', o: 0.5, sway: '18px', delay: '-15s' },
+  { v: 'b', x: '82%', y: '80%', s: 0.85, d: '28s', o: 0.72, sway: '16px', delay: '-22s' },
+  { v: 'c', x: '90%', y: '38%', s: 0.45, d: '40s', o: 0.44, sway: '-12px', delay: '-9s' },
+  { v: 'b', x: '79%', y: '52%', s: 0.6, d: '33s', o: 0.54, sway: '-18px', delay: '-27s' },
+]
+
 const PETALS = [
   { x: '12%', d: '11s' },
   { x: '28%', d: '14s', delay: '-5s' },
@@ -25,22 +47,48 @@ const PETALS = [
   { x: '86%', d: '16s', delay: '-11s' },
 ]
 
-export default function Hero() {
+/* Ma's blessing surfaces line by line once the envelope has cleared, then stays. */
+const poemStagger = {
+  hidden: {},
+  shown: { transition: { delayChildren: 0.9, staggerChildren: 1.05 } },
+}
+const poemLine = {
+  hidden: { opacity: 0, y: 22, filter: 'blur(10px)' },
+  shown: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 2.1, ease: [0.22, 1, 0.36, 1] },
+  },
+}
+
+export default function Hero({ started = true }) {
   const ref = useRef(null)
   const reduce = useReducedMotion()
+  const [bgLoaded, setBgLoaded] = useState(false)
   const { scrollY } = useScroll()
   const ySky = drift(scrollY, 0.12)
   const yFar = drift(scrollY, 0.26)
+  const yPhoto = drift(scrollY, 0.86)   // slight — the frame barely moves
   const yNear = drift(scrollY, 0.42)
   const yLanterns = drift(scrollY, 0.6)
+  const yTorches = drift(scrollY, 0.68)
+  const yPoem = drift(scrollY, 0.82)
   const yPetals = drift(scrollY, 0.75)
 
   const still = { y: 0 }
   const mv = (y) => (reduce ? still : { y })
 
+  /* nothing to reveal when the reader has asked for less motion — the blessing
+     is simply there */
+  const revealProps = reduce
+    ? {}
+    : { variants: poemStagger, initial: 'hidden', animate: started ? 'shown' : 'hidden' }
+  const lineProps = reduce ? {} : { variants: poemLine }
+
   return (
     <header className="hero" id="hero" ref={ref}>
-      {/* Layered painted scene — fallback behind the film, and the hero itself until the film is attached */}
+      {/* Layered painted scene — what fills the frame until the photograph decodes */}
       <div className="hero__scene" aria-hidden="true">
         <motion.div className="hero__layer hero__sky" style={mv(ySky)} />
         <motion.div className="hero__layer hero__sun" style={mv(ySky)} />
@@ -61,45 +109,71 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Full palace backdrop, the film itself on phones; desktop keeps the painted scene */}
-      <motion.div className="hero__bg" style={mv(yFar)} aria-hidden="true">
-        <div className="hero__bg-inner">
-          <video
-            src="assets/hero.mp4"
-            poster="assets/hero-poster.webp"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
+      {/* The mandap on the palace lake — centre-cropped to fill whatever shape
+          the screen is, and drifting a little slower than the page */}
+      <motion.div
+        className={`hero__bg${bgLoaded ? ' is-loaded' : ''}`}
+        style={mv(yPhoto)}
+        aria-hidden="true"
+      >
+        {/* two framings of the same scene: the wide one once the screen has the
+            shape for it, the upright one on phones */}
+        <picture>
+          <source media="(min-aspect-ratio: 1/1)" srcSet="assets/hero-mandap.webp" />
+          <img
+            className="hero__bg-frame"
+            src="assets/hero-mandap-tall.webp"
+            alt=""
+            fetchpriority="high"
+            decoding="async"
+            onLoad={() => setBgLoaded(true)}
           />
-        </div>
+        </picture>
       </motion.div>
 
-      {/* The film carries Ma's blessing burnt in, so the words stay for screen readers only */}
-      <div className="hero__verse lang-dev">
-        <p>आज इस आंगन में एक नई किरण उतरी है</p>
-        <p>जैसे दुआओं की चादर घर पे बिखरी है</p>
-      </div>
-      <p className="hero__verse-maa lang-dev">— माँ</p>
+      {/* Paper torches rising either side of the mandap */}
+      <motion.div className="hero__layer hero__torches" style={mv(yTorches)} aria-hidden="true">
+        {TORCHES.map((t, i) => (
+          <span
+            key={i}
+            className="torch"
+            style={{
+              '--x': t.x,
+              '--y': t.y,
+              '--s': t.s,
+              '--d': t.d,
+              '--o': t.o,
+              '--sway': t.sway,
+              '--delay': t.delay,
+            }}
+          >
+            <img className="torch__body" src={SPRITES[t.v]} alt="" />
+          </span>
+        ))}
+      </motion.div>
 
-      {/* Ma's blessing: baked into the backdrop on phones (plus her signature overlay);
-         desktop's painted scene carries the HTML verse */}
-      <div className="hero__poem">
-        <p className="lang-dev">
-          आज इस आँगन में एक नई किरण उतरी है,<br />
-          जैसे दुआओं की चादर घर पर बिखरी है।
-        </p>
-        <p className="hero__poem-sign">— Ma</p>
-      </div>
-
-      {/* Atmosphere above the film: drifting petals + vignette for text legibility */}
+      {/* Atmosphere above the picture: drifting petals + vignette for text legibility */}
       <motion.div className="hero__layer hero__petals" style={mv(yPetals)} aria-hidden="true">
         {PETALS.map((p, i) => (
           <span key={i} className="petal" style={{ '--x': p.x, '--d': p.d, '--delay': p.delay }} />
         ))}
       </motion.div>
       <div className="hero__vignette" aria-hidden="true" />
+
+      {/* Ma's blessing, emerging over the picture once the envelope has opened */}
+      <motion.div className="hero__poem" style={mv(yPoem)}>
+        <motion.div className="hero__poem-inner" {...revealProps}>
+          <motion.p className="lang-dev" {...lineProps}>
+            आज इस आंगन में एक नई किरण उतरी है
+          </motion.p>
+          <motion.p className="lang-dev" {...lineProps}>
+            जैसे दुआओं की चादर घर पे बिखरी है
+          </motion.p>
+          <motion.p className="hero__poem-sign lang-dev" {...lineProps}>
+            — माँ
+          </motion.p>
+        </motion.div>
+      </motion.div>
 
       <h1 className="visually-hidden">Prarita weds Varun — 26 November 2026</h1>
 
