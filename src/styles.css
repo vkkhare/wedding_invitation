@@ -170,8 +170,12 @@ sup { font-size: 0.55em; }
   position: absolute; inset: 0; z-index: 2;
   will-change: transform;
   display: flex; align-items: flex-start; justify-content: center;
-  /* artwork anchors to the top; the band below blends into its floor tones */
-  background: linear-gradient(180deg, #46150a 0%, #40120a 70%, #2e0b05 100%);
+  /* The film anchors to the top and the band below carries on its floor: the
+     tones are sampled from the film's own bottom edge, rgb(80,17,6) averaged
+     across the clip, so the join reads as the floor falling into shadow
+     rather than as the picture stopping. Covering instead would fill the
+     screen but drop the burnt-in "maa" behind the scroll cue. */
+  background: linear-gradient(180deg, #501106 0%, #3a0c04 38%, #240803 72%, #120401 100%);
 }
 .hero__bg-inner { position: relative; width: 100%; }
 .hero__bg img,
