@@ -185,9 +185,9 @@ sup { font-size: 0.55em; }
   object-fit: cover; object-position: 50% 50%;
 }
 
-/* Ma's blessing, centred in the sky above the mandap — never over the couple */
+/* Ma's blessing, centred and sitting just above the mandap — never over the couple */
 .hero__poem {
-  position: absolute; left: 0; right: 0; top: 9svh;
+  position: absolute; left: 0; right: 0; top: 24svh;
   z-index: 4;
   display: flex; justify-content: center;
   padding: 0 18px;
