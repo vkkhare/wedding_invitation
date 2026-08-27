@@ -61,13 +61,22 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Full palace backdrop composed from the film (phones); desktop keeps the painted scene */}
+      {/* Full palace backdrop, the film itself on phones; desktop keeps the painted scene */}
       <motion.div className="hero__bg" style={mv(yFar)} aria-hidden="true">
         <div className="hero__bg-inner">
-          <img src="assets/palace-bg.webp" alt="" />
+          <video
+            src="assets/hero.mp4"
+            poster="assets/hero-poster.webp"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
         </div>
       </motion.div>
 
+      {/* The film carries Ma's blessing burnt in, so the words stay for screen readers only */}
       <div className="hero__verse lang-dev">
         <p>आज इस आंगन में एक नई किरण उतरी है</p>
         <p>जैसे दुआओं की चादर घर पे बिखरी है</p>
