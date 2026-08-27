@@ -3,7 +3,7 @@
 A mobile-first React wedding invitation website for the celebrations of
 **Varun & Prarita**, 26th November 2026 · Utopia Resort, Sanchi (Vidisha).
 
-**Live site:** https://varunwedsprarita.netlify.app
+**Live site:** https://praritawedsvarun.online
 
 ## Stack
 
@@ -49,4 +49,12 @@ npm run build    # production build → dist/
 
 Netlify builds and deploys on every push to the production branch
 (`main`); build settings are pinned in `netlify.toml`.
+
+The site is served from **praritawedsvarun.online**, set as the primary
+domain in Netlify. Netlify keeps its own `*.netlify.app` address for every
+site and it cannot be deleted, but naming a primary domain makes it redirect
+there, so old links still reach the invitation. A custom domain also drops
+the "Powered by Netlify" badge that free sites carry on a netlify.app
+address.
+
 A manual GitHub Pages workflow remains available from the Actions tab as backup.

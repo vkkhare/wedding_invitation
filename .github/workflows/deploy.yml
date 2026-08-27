@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-# Hosting moved to Netlify (https://varunwedsprarita.netlify.app), which
+# Hosting moved to Netlify (https://praritawedsvarun.online), which
 # builds on every push by itself. This workflow is kept as a manual backup
 # for GitHub Pages — trigger it from the Actions tab if ever needed.
 on:
