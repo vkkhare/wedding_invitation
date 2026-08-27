@@ -25,6 +25,7 @@ const assets = {
   'assets/sangeet.mp4': ['public/assets/sangeet.mp4', 'video/mp4'],
   'assets/ganesha.webp': ['public/assets/ganesha.webp', 'image/webp'],
   'assets/palace-bg.webp': ['public/assets/palace-bg.webp', 'image/webp'],
+  'assets/couple.mp4': ['public/assets/couple.mp4', 'video/mp4'],
 }
 for (const [ref, [file, mime]] of Object.entries(assets)) {
   js = js.split(`"${ref}"`).join(JSON.stringify(dataURI(file, mime)))

@@ -576,6 +576,19 @@ sup { font-size: 0.55em; }
   .sangeet__media { justify-self: end; margin-left: 0; width: min(100%, 320px); }
 }
 
+/* animated couple portrait */
+.couple-film {
+  width: min(300px, 74vw);
+  margin: clamp(28px, 6vw, 44px) auto 0;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--gold);
+  box-shadow: 0 18px 44px rgba(20, 2, 3, 0.5);
+  background: var(--maroon-deep);
+  line-height: 0;
+}
+.couple-film video { display: block; width: 100%; height: auto; aspect-ratio: 464 / 688; object-fit: cover; }
+
 /* the big day: jharokha left, headline in the space beside it, schedule below */
 .bigday {
   width: 100%;
