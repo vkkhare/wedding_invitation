@@ -425,19 +425,19 @@ sup { font-size: 0.55em; }
 .section--flush { padding-top: 0; }
 .wrap { width: min(680px, calc(100% - 48px)); margin: 0 auto; position: relative; z-index: 2; }
 
-/* Damask backdrop, one printed tile re-dyed into each ground. It is a 386x367
-   repeat laid down at 240px, so the motif reads as cloth behind the words
-   rather than as wallpaper competing with them. */
+/* Damask backdrop: a single sprig lifted off the printed cloth and set in a
+   half-drop, one to each half of a 190x220 repeat, so most of the ground stays
+   open. Faint enough to be felt rather than read. */
 .section--red {
   background-color: var(--maroon);
   background-image: url("./assets/damask-red.webp");
-  background-size: 240px 228px;
+  background-size: 190px 220px;
 }
 
 .section--cream {
   background-color: var(--cream);
   background-image: url("./assets/damask-cream.webp");
-  background-size: 240px 228px;
+  background-size: 190px 220px;
   color: var(--ink);
   padding-top: clamp(96px, 16vw, 160px);
 }
