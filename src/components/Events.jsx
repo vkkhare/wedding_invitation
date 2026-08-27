@@ -42,13 +42,13 @@ function JharokhaArt() {
   const y = useTransform(scrollYProgress, [0, 1], [46, -34])
 
   return (
-    <figure className="bigday__art" ref={ref} aria-hidden="true">
+    <figure className="bigday__art bigday__art--right" ref={ref} aria-hidden="true">
       <motion.img
         src="assets/jharokha.webp"
         alt=""
         loading="lazy"
         style={reduce ? undefined : { y }}
-        initial={reduce ? false : { opacity: 0, x: -40 }}
+        initial={reduce ? false : { opacity: 0, x: 40 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
@@ -60,7 +60,7 @@ function JharokhaArt() {
 /* Beside the jharokha: diya, the big day, its name, date, and the schedule */
 function BigDayHead({ ev }) {
   return (
-    <Reveal className="bigday__head">
+    <Reveal className="bigday__head bigday__head--left">
       <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
       <p className="event-card__kicker">{ev.kicker}</p>
       <h3 className="bigday__title script">{ev.title}</h3>
@@ -199,9 +199,9 @@ export default function Events() {
       <SangeetScene />
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
-      <div className="bigday">
-        <JharokhaArt />
+      <div className="bigday bigday--haldi">
         <BigDayHead ev={EVENTS.find((ev) => ev.main)} />
+        <JharokhaArt />
       </div>
     </section>
   )
