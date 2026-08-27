@@ -6,8 +6,7 @@ export default function Couple() {
       <div className="wrap">
         <Reveal as="h2" className="couple-name">Varun</Reveal>
         <Reveal as="p" className="couple-parent">
-          Son of Dr. Shobha &amp; Dr. Abhay Khare<br />
-          Grandson of Late Shri K. B. Khare &amp; Late Smt. Tara Khare
+          Son of Dr. Shobha &amp; Dr. Abhay Khare
         </Reveal>
 
         <Reveal className="couple-amp">
@@ -19,13 +18,8 @@ export default function Couple() {
           Daughter of Shri Prakash Chandra Agrawal &amp; Smt. Shalini Agrawal
         </Reveal>
 
-        <Reveal as="figure" className="monogram-medallion">
-          <img src="assets/monogram.png" alt="V and P intertwined monogram" />
-        </Reveal>
-
-        <Reveal as="p" className="lang-dev couplet">
-          आज इस आँगन में एक नई किरण उतरी है,<br />
-          जैसे दुआओं की चादर घर पर बिखरी है।
+        <Reveal className="couple-film">
+          <img src="assets/couple.webp" alt="Portrait of Varun and Prarita" loading="lazy" />
         </Reveal>
       </div>
     </section>
