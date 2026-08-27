@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /* Transparent video from a "stacked" source: colour in the top half, alpha
    matte in the bottom half, recombined by a WebGL shader so the couple floats
@@ -8,9 +8,13 @@ import { useEffect, useRef } from 'react'
    alpha codecs are split down the middle -- Chrome wants VP9-alpha, Safari
    only does HEVC-alpha, and Safari paints a VP9 alpha channel black. Every
    browser decodes plain H.264, so the transparency is done in the shader. */
-export default function AlphaVideo({ sources, className }) {
+export default function AlphaVideo({ sources, still, className }) {
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
+  /* the still holds the frame until the film is genuinely running; every way
+     this can fail — no WebGL, a shader that will not compile, autoplay refused
+     in iOS Low Power Mode — ends with it simply staying put */
+  const [dancing, setDancing] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
@@ -58,10 +62,18 @@ export default function AlphaVideo({ sources, className }) {
     let raf = 0
     let sized = false
     let stop = false
+    /* Nothing is painted until the film is genuinely running: a paused video
+       still hands the shader its first frame, and drawing that would cover the
+       still with a frozen pose. Once it has started it keeps painting. */
+    let running = false
 
     const draw = () => {
       if (stop) return
-      if (video.readyState >= 2 && video.videoWidth) {
+      if (!running && !video.paused && video.currentTime > 0.05) {
+        running = true
+        setDancing(true)
+      }
+      if (running && video.readyState >= 2 && video.videoWidth) {
         if (!sized) {
           sized = true
           canvas.width = video.videoWidth
@@ -80,17 +92,30 @@ export default function AlphaVideo({ sources, className }) {
     kick()
     video.addEventListener('loadeddata', kick)
     document.addEventListener('visibilitychange', kick)
+    /* iOS refuses muted autoplay outright in Low Power Mode, but allows it off
+       the back of a gesture — so try again the first time the reader touches */
+    const gestures = ['pointerdown', 'touchstart', 'keydown']
+    gestures.forEach((e) => document.addEventListener(e, kick, { once: true, passive: true }))
 
     return () => {
       stop = true
       cancelAnimationFrame(raf)
       video.removeEventListener('loadeddata', kick)
       document.removeEventListener('visibilitychange', kick)
+      gestures.forEach((e) => document.removeEventListener(e, kick))
     }
   }, [])
 
   return (
     <div className={className}>
+      {still && (
+        <img
+          className={`alpha-video__still${dancing ? ' is-dancing' : ''}`}
+          src={still}
+          alt=""
+          aria-hidden="true"
+        />
+      )}
       <video
         ref={videoRef}
         className="alpha-video__source"

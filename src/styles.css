@@ -588,11 +588,26 @@ sup { font-size: 0.55em; }
   background: radial-gradient(ellipse at center, rgba(80, 20, 12, 0.2), transparent 70%);
   pointer-events: none;
 }
+/* The still is what holds the layout — same 480x714 frame as the film, so the
+   canvas lies exactly over it and there is no reflow when the film starts. */
+.alpha-video__still {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 600ms ease;
+}
+.alpha-video__still.is-dancing { opacity: 0; }
 .alpha-video__canvas {
   position: relative;
   display: block;
   width: 100%;
   height: auto;
+}
+.alpha-video__still ~ .alpha-video__canvas {
+  position: absolute;
+  inset: 0;
+  height: 100%;
 }
 /* the stacked source feeds the shader; it is never shown itself */
 .alpha-video__source {
