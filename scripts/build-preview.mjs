@@ -23,6 +23,7 @@ const assets = {
   'assets/train.webp': ['public/assets/train.webp', 'image/webp'],
   'assets/haldi.webp': ['public/assets/haldi.webp', 'image/webp'],
   'assets/sangeet-couple.mp4': ['public/assets/sangeet-couple.mp4', 'video/mp4'],
+  'assets/sangeet-couple-still.webp': ['public/assets/sangeet-couple-still.webp', 'image/webp'],
   'assets/ganesha.webp': ['public/assets/ganesha.webp', 'image/webp'],
   'assets/hero-mandap.webp': ['public/assets/hero-mandap.webp', 'image/webp'],
   'assets/hero-mandap-tall.webp': ['public/assets/hero-mandap-tall.webp', 'image/webp'],

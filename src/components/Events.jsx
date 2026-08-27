@@ -148,6 +148,7 @@ function SangeetScene() {
     <div className="bigday bigday--sangeet">
       <AlphaVideo
         className="sangeet__media"
+        still="assets/sangeet-couple-still.webp"
         sources={[
           { src: 'assets/sangeet-couple.mp4', type: 'video/mp4' },
           { src: 'assets/sangeet-couple.webm', type: 'video/webm' },
