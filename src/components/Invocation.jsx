@@ -26,9 +26,6 @@ export default function Invocation() {
           cordially solicit your gracious presence with family<br />
           to bless the couple on the auspicious occasion of the marriage of their son
         </Reveal>
-
-        <Reveal as="p" className="hosts-line">Invite</Reveal>
-        <Reveal as="p" className="hosts-line">you to join us in the wedding celebrations of</Reveal>
       </div>
     </section>
   )
