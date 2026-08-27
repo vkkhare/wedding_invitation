@@ -587,7 +587,7 @@ sup { font-size: 0.55em; }
   background: var(--maroon-deep);
   line-height: 0;
 }
-.couple-film video { display: block; width: 100%; height: auto; aspect-ratio: 464 / 688; object-fit: cover; }
+.couple-film img { display: block; width: 100%; height: auto; }
 
 /* the big day: jharokha left, headline in the space beside it, schedule below */
 .bigday {

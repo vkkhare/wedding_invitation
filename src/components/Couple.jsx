@@ -19,7 +19,7 @@ export default function Couple() {
         </Reveal>
 
         <Reveal className="couple-film">
-          <video src="assets/couple.mp4" autoPlay muted loop playsInline preload="metadata" aria-label="Animated portrait of the couple" />
+          <img src="assets/couple.webp" alt="Portrait of Varun and Prarita" loading="lazy" />
         </Reveal>
       </div>
     </section>
