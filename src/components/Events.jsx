@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
-import AlphaVideo from './AlphaVideo.jsx'
 
 const MAPS_UTOPIA = 'https://www.google.com/maps/search/?api=1&query=Utopia+Resort+Sanchi+Vidisha'
 const GCAL =
@@ -148,7 +147,7 @@ function SangeetScene() {
   return (
     <div className="bigday bigday--sangeet">
       <Reveal className="sangeet__media">
-        <AlphaVideo src="assets/sangeet-stacked.mp4" fallbackSrc="assets/sangeet.mp4" muted={muted} />
+        <video src="assets/sangeet.mp4" autoPlay muted={muted} loop playsInline preload="metadata" />
         <button
           type="button"
           className="sangeet__sound"
