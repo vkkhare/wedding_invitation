@@ -33,6 +33,7 @@ const assets = {
   'assets/sangeet-couple.mp4': ['public/assets/sangeet-couple.mp4', 'video/mp4'],
   'assets/sangeet-couple-still.webp': ['public/assets/sangeet-couple-still.webp', 'image/webp'],
   'assets/ganesha.webp': ['public/assets/ganesha.webp', 'image/webp'],
+  'assets/wedding-theme.mp3': ['public/assets/wedding-theme.mp3', 'audio/mpeg'],
   'assets/hero-mandap.webp': ['public/assets/hero-mandap.webp', 'image/webp'],
   'assets/hero-mandap-tall.webp': ['public/assets/hero-mandap-tall.webp', 'image/webp'],
   'assets/lantern-a.webp': ['public/assets/lantern-a.webp', 'image/webp'],

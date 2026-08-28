@@ -419,6 +419,43 @@ sup { font-size: 0.55em; }
 .hero__curtain { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 6; line-height: 0; }
 .hero__curtain svg { width: 100%; height: clamp(48px, 9vw, 120px); }
 
+/* ─────────────── Music ─────────────── */
+/* Four bars that dance while the track runs and settle flat when it stops, so
+   the control says which state it is in without a word of text. */
+.music {
+  position: fixed;
+  /* top right: the foot of the page belongs to the scroll cue, and the pill is
+     wide enough on a phone to sit under anything placed down there */
+  right: max(14px, env(safe-area-inset-right));
+  top: max(14px, env(safe-area-inset-top));
+  z-index: 60;
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  padding: 0;
+  border: 1px solid rgba(240, 212, 138, 0.55);
+  border-radius: 50%;
+  background: rgba(48, 10, 8, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(30, 6, 4, 0.45);
+  cursor: pointer;
+  transition: border-color 240ms ease, background 240ms ease;
+}
+.music:hover, .music:focus-visible { border-color: var(--gold-bright); background: rgba(64, 14, 10, 0.75); }
+.music__bars { display: flex; align-items: flex-end; gap: 3px; height: 16px; }
+.music__bars i {
+  display: block;
+  width: 3px; height: 5px;
+  border-radius: 1.5px;
+  background: var(--gold-bright);
+  transition: height 240ms ease;
+}
+.music.is-on .music__bars i { animation: musicBar 1.1s ease-in-out infinite; }
+.music.is-on .music__bars i:nth-child(2) { animation-delay: 0.18s; }
+.music.is-on .music__bars i:nth-child(3) { animation-delay: 0.36s; }
+.music.is-on .music__bars i:nth-child(4) { animation-delay: 0.54s; }
+@keyframes musicBar { 0%, 100% { height: 5px; } 50% { height: 16px; } }
+
 /* ─────────────── Sections ─────────────── */
 .section { position: relative; padding: clamp(64px, 12vw, 120px) 0; text-align: center; }
 .section--flush { padding-top: 0; }
@@ -760,6 +797,8 @@ sup { font-size: 0.55em; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .lantern, .petal, .hero__monogram, .hero__scroll-chev, .hero__sun, .loader__mark { animation: none !important; }
+  /* the bars hold at half height rather than dancing */
+  .music.is-on .music__bars i { animation: none !important; height: 11px; }
   /* the torches keep their glow, they just stop travelling */
   .torch, .torch::before, .torch__body { animation: none !important; }
   .torch { opacity: var(--o, 0.85); }

@@ -9,6 +9,7 @@ import Venue from './components/Venue.jsx'
 import Family from './components/Family.jsx'
 import TrainBand from './components/TrainBand.jsx'
 import Footer from './components/Footer.jsx'
+import Music from './components/Music.jsx'
 
 export default function App() {
   const [introDone, setIntroDone] = useState(false)
@@ -28,6 +29,7 @@ export default function App() {
         <TrainBand />
         <Footer />
       </main>
+      <Music />
     </>
   )
 }
