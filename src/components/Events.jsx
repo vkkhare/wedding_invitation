@@ -135,6 +135,21 @@ function HaldiScene({ sub }) {
   )
 }
 
+/* Devanagari sets its numerals well short of its letters, so a date's day and
+   year come up small beside the words around them; lifting the digit runs puts
+   the line back on one footing. */
+const DIGIT_RUN = /(\d+)/g
+const liftNumerals = (text) =>
+  text.split(DIGIT_RUN).map((part, i) =>
+    /^\d+$/.test(part) ? (
+      <span key={i} className="numeral">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  )
+
 /* A day as a family sends it in their own words: the date it falls on, the name
    it goes by, its hour, what else happens that day, and where. It fills the
    same head the English cards do, so a page can carry one of each. */
@@ -142,7 +157,7 @@ function DayHead({ day, icon }) {
   return (
     <>
       <div className="event-card__icon" aria-hidden="true">{icon}</div>
-      <p className="event-card__kicker lang-dev">{day.kicker}</p>
+      <p className="event-card__kicker lang-dev">{liftNumerals(day.kicker)}</p>
       <h3 className="bigday__title bigday__title--dev lang-dev">{day.title}</h3>
       {day.meta && <p className="event-card__meta lang-dev">{day.meta}</p>}
       {day.sub && (
