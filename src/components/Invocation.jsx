@@ -5,7 +5,10 @@ export default function Invocation() {
   const { blessings, hosts, child, invitation } = useSide()
 
   return (
-    <section className="section section--red" id="invocation">
+    <section
+      className={`section section--red${invitation ? ' section--runs-on' : ''}`}
+      id="invocation"
+    >
       <div className="wrap">
         <Reveal as="p" className="lang-dev shloka-top">॥ श्री गणेशाय नमः ॥</Reveal>
 

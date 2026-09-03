@@ -505,8 +505,10 @@ sup { font-size: 0.55em; }
    comes from smaller beneath, and the line that carries the reader on to the
    next party in the deeper gold. Devanagari also wants more room between lines
    than Latin does, for its matras. */
-.floral-rule { width: min(340px, 84%); margin: 0 auto clamp(24px, 5.5vw, 36px); }
-.floral-rule svg { display: block; width: 100%; height: auto; }
+/* Where the invitation carries on into the names below it, the section break is
+   only in the markup: the reader should meet one continuous passage, not two
+   blocks a full section's padding apart. */
+.section--runs-on { padding-bottom: clamp(26px, 6vw, 46px); }
 .invite-lead { font-size: clamp(1.02rem, 3.5vw, 1.2rem); line-height: 2; color: var(--gold-soft); text-wrap: balance; }
 .invite-lead + .invite-lead { margin-top: 4px; }
 
