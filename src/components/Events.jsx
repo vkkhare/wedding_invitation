@@ -235,7 +235,7 @@ function SangeetScene({ day }) {
 }
 
 export default function Events() {
-  const { shubhRasmein, bigDay, firstDay, sangeetDay, festivities } = useSide()
+  const { shubhRasmein, bigDay, firstDay, sangeetDay, weddingDay, festivities } = useSide()
 
   return (
     <section className="section section--cream" id="events">
@@ -268,7 +268,13 @@ export default function Events() {
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
       <div className="bigday bigday--haldi">
-        <BigDayHead ev={EVENTS.find((ev) => ev.main)} sub={bigDay} />
+        {weddingDay ? (
+          <Reveal className="bigday__head bigday__head--left">
+            <DayHead day={weddingDay} icon={<PheraIcon />} />
+          </Reveal>
+        ) : (
+          <BigDayHead ev={EVENTS.find((ev) => ev.main)} sub={bigDay} />
+        )}
         <JharokhaArt />
       </div>
     </section>

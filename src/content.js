@@ -79,7 +79,6 @@ export const BRIDE = {
 
      Still standing in from the groom side, to be replaced when the words come:
        · specialRequest — her own siblings, and a voice note if they record one
-       · bigDay         — reads "Baraat Prasthan"; from here it is the aagman
        · rsvp.phones    — the Khare family's numbers */
   ...GROOM,
 
@@ -156,6 +155,14 @@ export const BRIDE = {
     title: 'सगाई एवं संगीत',
     meta: 'सायं 7 बजे',
     sub: ['तिलक · प्रातः 10 बजे', 'हल्दी · अपराह्न 2 बजे'],
+  },
+
+  /* The wedding day as her family keep it: the baraat is welcomed here. */
+  weddingDay: {
+    kicker: 'बृहस्पतिवार · 26 नवम्बर 2026',
+    title: 'फेरे',
+    meta: 'सायं 5 बजे',
+    sub: ['स्वागत बारात · अपराह्न 2 बजे', 'जयमाला · अपराह्न 3 बजे'],
   },
 
   hosts: 'Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal',
