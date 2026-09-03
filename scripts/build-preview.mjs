@@ -5,8 +5,16 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const dist = 'dist'
-const cssFile = fs.readdirSync(path.join(dist, 'assets')).find((f) => f.endsWith('.css'))
-const jsFile = fs.readdirSync(path.join(dist, 'assets')).find((f) => f.endsWith('.js'))
+// dist/ now holds two pages (index.html and bride/index.html) off one bundle;
+// read the entry the main page points at rather than guessing from the folder.
+const page = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
+const ref = (re, what) => {
+  const m = page.match(re)
+  if (!m) throw new Error('no ' + what + ' referenced by dist/index.html')
+  return m[1]
+}
+const cssFile = ref(/href="\.\/assets\/([^"]+\.css)"/, 'stylesheet')
+const jsFile = ref(/src="\.\/assets\/([^"]+\.js)"/, 'module')
 const css = fs.readFileSync(path.join(dist, 'assets', cssFile), 'utf8')
 let js = fs.readFileSync(path.join(dist, 'assets', jsFile), 'utf8')
 
@@ -26,19 +34,19 @@ fonts = fonts.replace(/url\(['"]?\.\.\/assets\/fonts\/([^)'"]+)['"]?\)/g, (m, f)
 if (/assets\/fonts/.test(fonts)) throw new Error('font urls left unreplaced')
 
 const assets = {
-  'assets/monogram.png': ['public/assets/monogram.png', 'image/png'],
-  'assets/jharokha.webp': ['public/assets/jharokha.webp', 'image/webp'],
-  'assets/train.webp': ['public/assets/train.webp', 'image/webp'],
-  'assets/haldi.webp': ['public/assets/haldi.webp', 'image/webp'],
-  'assets/sangeet-couple.mp4': ['public/assets/sangeet-couple.mp4', 'video/mp4'],
-  'assets/sangeet-couple-still.webp': ['public/assets/sangeet-couple-still.webp', 'image/webp'],
-  'assets/ganesha.webp': ['public/assets/ganesha.webp', 'image/webp'],
-  'assets/wedding-theme.mp3': ['public/assets/wedding-theme.mp3', 'audio/mpeg'],
-  'assets/hero-mandap.webp': ['public/assets/hero-mandap.webp', 'image/webp'],
-  'assets/hero-mandap-tall.webp': ['public/assets/hero-mandap-tall.webp', 'image/webp'],
-  'assets/lantern-a.webp': ['public/assets/lantern-a.webp', 'image/webp'],
-  'assets/lantern-b.webp': ['public/assets/lantern-b.webp', 'image/webp'],
-  'assets/lantern-c.webp': ['public/assets/lantern-c.webp', 'image/webp'],
+  '/assets/monogram.png': ['public/assets/monogram.png', 'image/png'],
+  '/assets/jharokha.webp': ['public/assets/jharokha.webp', 'image/webp'],
+  '/assets/train.webp': ['public/assets/train.webp', 'image/webp'],
+  '/assets/haldi.webp': ['public/assets/haldi.webp', 'image/webp'],
+  '/assets/sangeet-couple.mp4': ['public/assets/sangeet-couple.mp4', 'video/mp4'],
+  '/assets/sangeet-couple-still.webp': ['public/assets/sangeet-couple-still.webp', 'image/webp'],
+  '/assets/ganesha.webp': ['public/assets/ganesha.webp', 'image/webp'],
+  '/assets/wedding-theme.mp3': ['public/assets/wedding-theme.mp3', 'audio/mpeg'],
+  '/assets/hero-mandap.webp': ['public/assets/hero-mandap.webp', 'image/webp'],
+  '/assets/hero-mandap-tall.webp': ['public/assets/hero-mandap-tall.webp', 'image/webp'],
+  '/assets/lantern-a.webp': ['public/assets/lantern-a.webp', 'image/webp'],
+  '/assets/lantern-b.webp': ['public/assets/lantern-b.webp', 'image/webp'],
+  '/assets/lantern-c.webp': ['public/assets/lantern-c.webp', 'image/webp'],
 }
 for (const [ref, [file, mime]] of Object.entries(assets)) {
   js = js.split(`"${ref}"`).join(JSON.stringify(dataURI(file, mime)))

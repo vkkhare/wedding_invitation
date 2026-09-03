@@ -12,7 +12,7 @@ export default function TrainBand() {
   return (
     <section className="train-band" ref={ref} aria-label="Lucknow to Bhopal — the journey home">
       <motion.img
-        src="assets/train.webp"
+        src="/assets/train.webp"
         alt="Bride and groom reaching for each other beside a Lucknow to Bhopal railway carriage"
         loading="lazy"
         style={reduce ? undefined : { y }}

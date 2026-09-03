@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal.jsx'
 import AlphaVideo from './AlphaVideo.jsx'
+import { useSide } from '../content.js'
 
 const MAPS_UTOPIA = 'https://www.google.com/maps/search/?api=1&query=Utopia+Resort+Sanchi+Vidisha'
 const GCAL =
@@ -24,7 +25,8 @@ const EVENTS = [
     kicker: 'The Big Day',
     title: 'Wedding & Reception',
     meta: <>Thursday · 26<sup>th</sup> November 2026</>,
-    sub: ['Baraat Prasthan · 2:00 pm', 'Jaimala · 4:00 pm', 'Phere · 5:45 pm', 'Reception & Dinner · 8:00 pm'],
+    /* the running order comes from the side being read — the baraat sets out
+       from one house and arrives at the other */
     main: true,
     actions: [],
   },
@@ -45,7 +47,7 @@ function JharokhaArt() {
   return (
     <figure className="bigday__art bigday__art--right" ref={ref} aria-hidden="true">
       <motion.img
-        src="assets/jharokha.webp"
+        src="/assets/jharokha.webp"
         alt=""
         loading="lazy"
         style={reduce ? undefined : { y }}
@@ -59,7 +61,7 @@ function JharokhaArt() {
 }
 
 /* Beside the jharokha: diya, the big day, its name, date, and the schedule */
-function BigDayHead({ ev }) {
+function BigDayHead({ ev, sub }) {
   return (
     <Reveal className="bigday__head bigday__head--left">
       <div className="event-card__icon" aria-hidden="true">{ev.icon}</div>
@@ -67,7 +69,7 @@ function BigDayHead({ ev }) {
       <h3 className="bigday__title script">{ev.title}</h3>
       <p className="event-card__meta">{ev.meta}</p>
       <div className="event-card__sub">
-        {ev.sub.map((s, i) => (
+        {sub.map((s, i) => (
           <span key={s} className="event-card__subitem">
             {i > 0 && <i>❖</i>}
             <span>{nb(s)}</span>
@@ -97,7 +99,7 @@ function HaldiArt() {
   return (
     <figure className="bigday__art bigday__art--right" ref={ref} aria-hidden="true">
       <motion.img
-        src="assets/haldi.webp"
+        src="/assets/haldi.webp"
         alt=""
         loading="lazy"
         style={reduce ? undefined : { y }}
@@ -111,7 +113,7 @@ function HaldiArt() {
 }
 
 /* 25 Nov — mirrored composition: details on the left, art off the right edge */
-function HaldiScene() {
+function HaldiScene({ sub }) {
   return (
     <div className="bigday bigday--haldi">
       <Reveal className="bigday__head bigday__head--left">
@@ -120,7 +122,7 @@ function HaldiScene() {
         <h3 className="bigday__title script">Shubh Rasmein</h3>
         <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
         <div className="event-card__sub">
-          {['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm'].map((s, i) => (
+          {sub.map((s, i) => (
             <span key={s} className="event-card__subitem">
               {i > 0 && <i>❖</i>}
               <span>{nb(s)}</span>
@@ -148,10 +150,10 @@ function SangeetScene() {
     <div className="bigday bigday--sangeet">
       <AlphaVideo
         className="sangeet__media"
-        still="assets/sangeet-couple-still.webp"
+        still="/assets/sangeet-couple-still.webp"
         sources={[
-          { src: 'assets/sangeet-couple.mp4', type: 'video/mp4' },
-          { src: 'assets/sangeet-couple.webm', type: 'video/webm' },
+          { src: '/assets/sangeet-couple.mp4', type: 'video/mp4' },
+          { src: '/assets/sangeet-couple.webm', type: 'video/webm' },
         ]}
       />
       <Reveal className="bigday__head">
@@ -168,6 +170,8 @@ function SangeetScene() {
 }
 
 export default function Events() {
+  const { shubhRasmein, bigDay } = useSide()
+
   return (
     <section className="section section--cream" id="events">
       <div className="curtain-top" aria-hidden="true">
@@ -187,13 +191,13 @@ export default function Events() {
       </div>
 
       {/* 25 Nov — Haldi as a full painted scene */}
-      <HaldiScene />
+      <HaldiScene sub={shubhRasmein} />
 
       <SangeetScene />
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
       <div className="bigday bigday--haldi">
-        <BigDayHead ev={EVENTS.find((ev) => ev.main)} />
+        <BigDayHead ev={EVENTS.find((ev) => ev.main)} sub={bigDay} />
         <JharokhaArt />
       </div>
     </section>

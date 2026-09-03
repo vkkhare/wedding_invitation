@@ -110,5 +110,5 @@ export default function Music({ playRef, ducked = false }) {
 
   useEffect(() => () => cancelAnimationFrame(fadeRef.current), [])
 
-  return <audio ref={audioRef} src="assets/wedding-theme.mp3" loop preload="auto" />
+  return <audio ref={audioRef} src="/assets/wedding-theme.mp3" loop preload="auto" />
 }

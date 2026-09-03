@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { useSide } from '../content.js'
 
 /* Parallax speeds: 0 = pinned to the page, 1 = scrolls away at full speed.
    Each layer is translated by scrollY * (1 - speed), so lower numbers drift slower. */
@@ -21,9 +22,9 @@ const LANTERNS = [
    The sprites are cut from the lantern sheet, spelled out one by one so the
    preview bundler can swap each path for a data URI. */
 const SPRITES = {
-  a: 'assets/lantern-a.webp',
-  b: 'assets/lantern-b.webp',
-  c: 'assets/lantern-c.webp',
+  a: '/assets/lantern-a.webp',
+  b: '/assets/lantern-b.webp',
+  c: '/assets/lantern-c.webp',
 }
 const TORCHES = [
   { v: 'a', x: '4%', y: '62%', s: 1.15, d: '34s', o: 0.74, sway: '22px' },
@@ -63,6 +64,7 @@ const poemLine = {
 }
 
 export default function Hero({ started = true }) {
+  const { poem, title } = useSide()
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const [bgLoaded, setBgLoaded] = useState(false)
@@ -119,10 +121,10 @@ export default function Hero({ started = true }) {
         {/* two framings of the same scene: the wide one once the screen has the
             shape for it, the upright one on phones */}
         <picture>
-          <source media="(min-aspect-ratio: 1/1)" srcSet="assets/hero-mandap.webp" />
+          <source media="(min-aspect-ratio: 1/1)" srcSet="/assets/hero-mandap.webp" />
           <img
             className="hero__bg-frame"
-            src="assets/hero-mandap-tall.webp"
+            src="/assets/hero-mandap-tall.webp"
             alt=""
             fetchpriority="high"
             decoding="async"
@@ -163,19 +165,18 @@ export default function Hero({ started = true }) {
       {/* Ma's blessing, emerging over the picture once the envelope has opened */}
       <motion.div className="hero__poem" style={mv(yPoem)}>
         <motion.div className="hero__poem-inner" {...revealProps}>
-          <motion.p className="lang-dev" {...lineProps}>
-            आज इस आंगन में एक नई किरण उतरी है
-          </motion.p>
-          <motion.p className="lang-dev" {...lineProps}>
-            जैसे दुआओं की चादर घर पे बिखरी है
-          </motion.p>
+          {poem.lines.map((line) => (
+            <motion.p key={line} className="lang-dev" {...lineProps}>
+              {line}
+            </motion.p>
+          ))}
           <motion.p className="hero__poem-sign lang-dev" {...lineProps}>
-            — माँ
+            {poem.sign}
           </motion.p>
         </motion.div>
       </motion.div>
 
-      <h1 className="visually-hidden">Varun weds Prarita — 26 November 2026</h1>
+      <h1 className="visually-hidden">{title}</h1>
 
       <a className="hero__scroll" href="#invocation" aria-label="Scroll to open the invitation">
         <span className="hero__scroll-text">Scroll to Open Invitation</span>

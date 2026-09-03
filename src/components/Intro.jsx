@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
+import { useSide } from '../content.js'
 
 /* Opening sequence: a sealed red envelope that waits to be opened.
 
@@ -18,6 +19,7 @@ const PHASES = [
 const DONE_AT = 3850
 
 export default function Intro({ onOpen, onDone }) {
+  const { names } = useSide()
   const reduce = useReducedMotion()
   const [phase, setPhase] = useState('p0')
   const opened = useRef(false)
@@ -65,11 +67,11 @@ export default function Intro({ onOpen, onDone }) {
           <div className="intro__env-back" />
           <div className="intro__slot">
             <div className="intro__card">
-              <img src="assets/monogram.png" alt="" className="intro__card-mark" />
+              <img src="/assets/monogram.png" alt="" className="intro__card-mark" />
               <p className="intro__card-names">
-                <span className="script">Varun</span>
+                <span className="script">{names[0]}</span>
                 <span className="intro__card-weds">weds</span>
-                <span className="script">Prarita</span>
+                <span className="script">{names[1]}</span>
               </p>
               <span className="intro__card-rule" />
               <p className="intro__card-date">26 · 11 · 2026</p>
@@ -79,7 +81,7 @@ export default function Intro({ onOpen, onDone }) {
           <div className="intro__env-pocket" />
           <div className="intro__env-flap">
             <span className="intro__seal">
-              <img src="assets/monogram.png" alt="" />
+              <img src="/assets/monogram.png" alt="" />
             </span>
           </div>
         </div>

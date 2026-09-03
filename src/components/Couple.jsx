@@ -1,22 +1,22 @@
 import Reveal from './Reveal.jsx'
+import { useSide } from '../content.js'
 
 export default function Couple() {
+  const { couple } = useSide()
+  const [first, second] = couple
+
   return (
     <section className="section section--red section--flush" id="couple">
       <div className="wrap">
-        <Reveal as="h2" className="couple-name">Varun</Reveal>
-        <Reveal as="p" className="couple-parent">
-          Son of Dr. Shobha &amp; Dr. Abhay Khare
-        </Reveal>
+        <Reveal as="h2" className="couple-name">{first.name}</Reveal>
+        <Reveal as="p" className="couple-parent">{first.parent}</Reveal>
 
         <Reveal className="couple-amp">
           <span className="script">&amp;</span>
         </Reveal>
 
-        <Reveal as="h2" className="couple-name">Prarita</Reveal>
-        <Reveal as="p" className="couple-parent">
-          Daughter of Shri Prakash Chandra Agrawal &amp; Smt. Shalini Agrawal
-        </Reveal>
+        <Reveal as="h2" className="couple-name">{second.name}</Reveal>
+        <Reveal as="p" className="couple-parent">{second.parent}</Reveal>
       </div>
     </section>
   )

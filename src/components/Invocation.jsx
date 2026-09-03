@@ -1,13 +1,16 @@
 import Reveal from './Reveal.jsx'
+import { useSide } from '../content.js'
 
 export default function Invocation() {
+  const { blessings, hosts, child } = useSide()
+
   return (
     <section className="section section--red" id="invocation">
       <div className="wrap">
         <Reveal as="p" className="lang-dev shloka-top">॥ श्री गणेशाय नमः ॥</Reveal>
 
         <Reveal className="ganesha" aria-hidden="true">
-          <img src="assets/ganesha.webp" alt="" loading="lazy" />
+          <img src="/assets/ganesha.webp" alt="" loading="lazy" />
         </Reveal>
 
         <Reveal as="p" className="lang-dev shloka">
@@ -16,15 +19,20 @@ export default function Invocation() {
 
         <Divider glyph="✻" />
 
-        <Reveal as="p" className="blessing-lead">With the heavenly blessings of</Reveal>
-        <Reveal as="p" className="blessing-names">Late Shri K. B. Khare &amp; Late Smt. Tara Khare</Reveal>
+        {/* the elders are named only where the family has given their names */}
+        {blessings && (
+          <>
+            <Reveal as="p" className="blessing-lead">With the heavenly blessings of</Reveal>
+            <Reveal as="p" className="blessing-names">{blessings}</Reveal>
 
-        <Divider glyph="✻" />
+            <Divider glyph="✻" />
+          </>
+        )}
 
-        <Reveal as="p" className="hosts-names">Dr. Shobha Khare &amp; Dr. Abhay Khare</Reveal>
+        <Reveal as="p" className="hosts-names">{hosts}</Reveal>
         <Reveal as="p" className="hosts-line">
           cordially solicit your gracious presence with family<br />
-          to bless the couple on the auspicious occasion of the marriage of their son
+          to bless the couple on the auspicious occasion of the marriage of their {child}
         </Reveal>
       </div>
     </section>
