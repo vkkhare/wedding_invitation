@@ -39,9 +39,15 @@ special request, the RSVP numbers, the hashtag and the sign-off.
 
 **Every one of those lines lives in `src/content.js`** — `GROOM` and `BRIDE`,
 side by side. Nothing else needs editing to change a name, a number or a line
-of the schedule. Fields left `null` (the bride side's elders and special
-request, for now) simply drop their block rather than printing a placeholder,
-so the page stays whole until the family sends the words.
+of the schedule.
+
+`BRIDE` spreads `GROOM` first, so any line her family has not sent yet keeps
+the groom side's words instead of leaving a hole in their invitation; each one
+is replaced by overriding that field. Standing in today: the elders blessed in
+the invocation, the Special Request block (and Inaya's voice note), the
+"Baraat Prasthan" line — from this side it is the aagman — and the RSVP
+numbers. (A field explicitly set to `null` drops its block instead, for
+anything the bride's side would rather leave out altogether.)
 
 The two pages are built from `index.html` and `bride/index.html` — a second
 Vite entry that exists so `/bride` has its own `<title>` and og: card, since

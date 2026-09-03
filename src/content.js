@@ -9,15 +9,6 @@ import { createContext, useContext } from 'react'
    identical; what changes is the voice the invitation is written in — whose
    home is inviting you, whose parents host, whose name is read first. */
 
-/* One wedding, one schedule — only the baraat line is written from where each
-   family is standing, so it is added per side below. */
-const SHUBH_RASMEIN = ['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm']
-const BIG_DAY = ['Jaimala · 4:00 pm', 'Phere · 5:45 pm', 'Reception & Dinner · 8:00 pm']
-
-const THANKS =
-  'Thank you for being part of our journey. Your presence at the wedding celebrations will ' +
-  'enhance the joy of the occasion and add blessings to this happy union.'
-
 const wa = (text) => `https://wa.me/917898527805?text=${encodeURIComponent(text)}`
 
 export const GROOM = {
@@ -45,10 +36,19 @@ export const GROOM = {
     { name: 'Prarita', parent: 'Daughter of Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal' },
   ],
 
-  shubhRasmein: SHUBH_RASMEIN,
-  bigDay: ['Baraat Prasthan · 2:00 pm', ...BIG_DAY],
+  /* one wedding, one running order — the baraat is the only line that reads
+     differently depending on which house you are standing in */
+  shubhRasmein: ['Lagun · 9:00 am', 'Bhat · 10:00 am', 'Haldi & Tel · 2:00 pm'],
+  bigDay: [
+    'Baraat Prasthan · 2:00 pm',
+    'Jaimala · 4:00 pm',
+    'Phere · 5:45 pm',
+    'Reception & Dinner · 8:00 pm',
+  ],
 
-  thanks: THANKS,
+  thanks:
+    'Thank you for being part of our journey. Your presence at the wedding celebrations will ' +
+    'enhance the joy of the occasion and add blessings to this happy union.',
   specialRequest: {
     head: 'Special Request',
     names: ['Abhinav', 'Kratika'],
@@ -70,6 +70,18 @@ export const GROOM = {
 }
 
 export const BRIDE = {
+  /* The bride's family have not sent every line across yet. Rather than leave
+     holes in their invitation, the groom side's words stand in wherever this
+     object does not override them — spread first, overridden below — so the
+     page reads whole today and each line can be replaced one at a time.
+
+     Still standing in from the groom side, to be replaced when the words come:
+       · blessings      — the bride's grandparents, blessed by name
+       · specialRequest — her own siblings, and a voice note if they record one
+       · bigDay         — reads "Baraat Prasthan"; from here it is the aagman
+       · rsvp.phones    — the Khare family's numbers */
+  ...GROOM,
+
   key: 'bride',
   names: ['Prarita', 'Varun'],
   title: 'Prarita weds Varun — 26 November 2026',
@@ -84,10 +96,6 @@ export const BRIDE = {
     sign: '— माँ',
   },
 
-  /* TODO(family): the bride's grandparents, to be blessed by name as the groom
-     side does. Until they are filled in, the invocation simply leaves the line
-     out rather than carrying a placeholder. */
-  blessings: null,
   hosts: 'Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal',
   child: 'daughter',
 
@@ -96,25 +104,11 @@ export const BRIDE = {
     { name: 'Varun', parent: 'Son of Dr. Shobha & Dr. Abhay Khare' },
   ],
 
-  shubhRasmein: SHUBH_RASMEIN,
-  /* the baraat arrives here rather than departing; add the aagman time to this
-     list once it is fixed */
-  bigDay: BIG_DAY,
-
-  thanks: THANKS,
-  /* TODO(family): the bride's siblings, and a voice note of their own if they
-     record one. Left out until then — the block is skipped, not blanked. */
-  specialRequest: null,
-  /* TODO(family): the bride's side RSVP numbers. These are the Khare family's
-     numbers, standing in so the button always reaches someone. */
   rsvp: {
+    ...GROOM.rsvp,
     whatsapp: wa(
       'Namaste! We would be delighted to join the wedding celebrations of Prarita & Varun.',
     ),
-    phones: [
-      { tel: '+917898527805', label: '78985 27805' },
-      { tel: '+919611942479', label: '96119 42479' },
-    ],
   },
 
   hashtag: '#PraritaWedsVarun',
