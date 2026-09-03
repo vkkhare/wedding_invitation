@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Reveal from './Reveal.jsx'
 import { Divider } from './Invocation.jsx'
+import { useSide } from '../content.js'
 
 const TARGET = new Date('2026-11-26T00:00:00+05:30').getTime()
 const pad = (n) => String(n).padStart(2, '0')
@@ -18,6 +19,7 @@ function remaining() {
 }
 
 export default function Countdown() {
+  const { invitation } = useSide()
   const [t, setT] = useState(remaining)
 
   useEffect(() => {
@@ -28,11 +30,20 @@ export default function Countdown() {
   return (
     <section className="section section--red section--flush" id="countdown">
       <div className="wrap">
-        <Reveal as="h2" className="script section-script">The Journey Begins</Reveal>
-        <Reveal as="p" className="count-copy">
-          Surrounded by family and friends, we can't wait
-          <br className="br-desk" /> to celebrate this beautiful moment with you.
-        </Reveal>
+        {invitation ? (
+          /* the passage closes here, on the wish it leaves the couple with */
+          <Reveal as="p" className="count-copy count-copy--dev lang-dev">
+            {invitation.wish}
+          </Reveal>
+        ) : (
+          <>
+            <Reveal as="h2" className="script section-script">The Journey Begins</Reveal>
+            <Reveal as="p" className="count-copy">
+              Surrounded by family and friends, we can't wait
+              <br className="br-desk" /> to celebrate this beautiful moment with you.
+            </Reveal>
+          </>
+        )}
         <Reveal as="p" className="count-date">26 · 11 · 2026</Reveal>
         <Divider />
         <Reveal as="p" className="countdown" aria-live="polite">

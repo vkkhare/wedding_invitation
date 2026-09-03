@@ -78,7 +78,6 @@ export const BRIDE = {
      page reads whole today and each line can be replaced one at a time.
 
      Still standing in from the groom side, to be replaced when the words come:
-       · blessings      — the bride's grandparents, blessed by name
        · specialRequest — her own siblings, and a voice note if they record one
        · bigDay         — reads "Baraat Prasthan"; from here it is the aagman
        · rsvp.phones    — the Khare family's numbers */
@@ -100,6 +99,38 @@ export const BRIDE = {
     ],
     closing: 'शुभ पाणिग्रहण संस्कार…',
     sign: null,
+  },
+
+  /* Her family invite in their own words, in Hindi, and the passage carries
+     what the English blessing, the couple's introduction and the countdown's
+     opening line carried on the groom's page — so wherever `invitation` is
+     set, it is what those three places say, and the English fields above and
+     below it go unread. Each party names itself, the line that follows it, and
+     the elders it comes from. */
+  invitation: {
+    lead: [
+      'श्री श्याम प्रभु की असीम कृपा से प्राप्त इस शुभ अवसर पर',
+      'हम आपको सपरिवार सादर आमंत्रित करते हैं।',
+    ],
+    parties: [
+      {
+        honorific: 'सौभाग्यवती',
+        name: 'प्रारिता',
+        kin: [
+          '(सुपौत्री स्वर्गीय द्रौपदी देवी एवं रामस्वरूप अग्रवाल)',
+          '(सुपुत्री श्रीमती शालिनी एवं प्रकाश अग्रवाल)',
+        ],
+        after: 'का शुभ परिणय',
+      },
+      {
+        honorific: 'चिरंजीव',
+        name: 'वरुण',
+        kin: ['(सुपुत्र डॉ. शोभा एवं डॉ. अभय खरे)'],
+        after: 'के साथ',
+      },
+    ],
+    close: 'शुभ लग्नानुसार सम्पन्न होगा।',
+    wish: 'आपकी शुभकामनाएँ एवं शुभाशीष नवयुगल के नवजीवन की अमूल्य निधि होंगे।',
   },
 
   hosts: 'Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal',

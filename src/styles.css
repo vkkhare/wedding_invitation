@@ -499,6 +499,33 @@ sup { font-size: 0.55em; }
 .couple-amp { margin: clamp(20px, 5vw, 34px) 0; }
 .couple-amp .script { font-size: clamp(2.6rem, 9vw, 3.6rem); color: var(--gold); }
 
+/* The invitation as a family sends it in Hindi. The calligraphic face the Latin
+   names are set in has no Devanagari, so the hierarchy is carried by size and
+   colour instead: the honorific quiet above, the name large, the elders it
+   comes from smaller beneath, and the line that carries the reader on to the
+   next party in the deeper gold. Devanagari also wants more room between lines
+   than Latin does, for its matras. */
+.invite-lead { font-size: clamp(1.02rem, 3.5vw, 1.2rem); line-height: 2; color: var(--gold-soft); text-wrap: balance; }
+.invite-lead + .invite-lead { margin-top: 4px; }
+
+.invite-party + .invite-party { margin-top: clamp(16px, 4vw, 26px); }
+.invite-honorific {
+  font-size: clamp(0.95rem, 3.2vw, 1.1rem); letter-spacing: 0.12em;
+  color: var(--gold); margin-bottom: 2px;
+}
+.invite-name {
+  font-size: clamp(2rem, 8.4vw, 3.1rem); font-weight: 500; line-height: 1.35;
+  color: var(--gold-bright); text-shadow: 0 4px 26px rgba(20, 2, 3, 0.5);
+}
+.invite-kin { font-size: clamp(0.92rem, 3.1vw, 1.05rem); line-height: 1.95; color: var(--gold-soft); text-wrap: balance; }
+.invite-join { font-size: clamp(1.05rem, 3.7vw, 1.25rem); color: var(--gold); margin-top: clamp(10px, 2.6vw, 16px); }
+.invite-close {
+  font-size: clamp(1.15rem, 4.2vw, 1.5rem); line-height: 1.9;
+  color: var(--gold-bright); margin-top: clamp(20px, 5vw, 32px); text-wrap: balance;
+}
+/* the wish that closes the passage, above the date and the tally */
+.count-copy--dev { line-height: 2; text-wrap: balance; }
+
 .monogram-medallion {
   width: clamp(120px, 32vw, 170px);
   margin: clamp(36px, 8vw, 56px) auto 0;
