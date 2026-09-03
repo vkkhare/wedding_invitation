@@ -34,6 +34,7 @@ export default function Countdown() {
           <br className="br-desk" /> to celebrate this beautiful moment with you.
         </Reveal>
         <Divider />
+        <Reveal as="p" className="count-date">26 · 11 · 2026</Reveal>
         <Reveal as="p" className="countdown" aria-live="polite">
           <span><b>{t.d}</b><small>Days</small></span>
           <i>·</i>
@@ -44,7 +45,6 @@ export default function Countdown() {
           <span><b>{t.s}</b><small>Secs</small></span>
         </Reveal>
         {t.done && <p className="count-copy">The auspicious day is here!</p>}
-        <Reveal as="p" className="count-date">26 · 11 · 2026</Reveal>
       </div>
     </section>
   )
