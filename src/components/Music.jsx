@@ -2,23 +2,29 @@ import { useCallback, useEffect, useRef } from 'react'
 
 /* Background music for the whole invitation.
 
-   The reader's first scroll down the invitation is what starts the theme.
-   On a phone that scroll begins with a finger on the glass, which is the
-   gesture every browser wants before it will make a sound at a stranger;
-   wheel, key and scroll events are watched alongside it so a trackpad or a
-   keyboard counts too. Nothing is armed until the envelope is out of the
-   way — the music belongs to the invitation, not to the opening. */
+   The reader's first scroll down the invitation starts the theme. On a phone
+   that scroll begins with a finger on the glass, which is the gesture every
+   browser wants before it will make a sound at a stranger; wheel, key and
+   scroll events are watched alongside it so a trackpad or a keyboard counts
+   too. Nothing is armed until the envelope is out of the way — the music
+   belongs to the invitation, not to the opening.
+
+   Everything here is arranged so that the failure mode is loud rather than
+   silent. The volume is set before playback, never after: a fade-in that
+   depends on a later event is a track playing at nothing on any phone where
+   that event does not arrive. And the listeners stay armed until the clock
+   on the audio has actually moved, so a play() the browser accepted but
+   never honoured gets asked again on the next scroll. */
 
 const VOLUME = 0.5
 const DUCKED = 0.08
-const FADE_IN = 1800
 const FADE_DUCK = 700
 
 const WAKE = ['touchstart', 'touchmove', 'pointerdown', 'click', 'keydown', 'wheel', 'scroll']
 
 /* iPhones refuse to let a page set volume on a media element — the property
    is there, assignments to it just never take. Worth knowing once, because
-   the fade and the duck below both need another way round on a phone. */
+   the duck below needs another way round on a phone. */
 function volumeIsWritable(el) {
   const held = el.volume
   el.volume = held === 0.5 ? 0.25 : 0.5
@@ -61,26 +67,28 @@ export default function Music({ started, ducked = false }) {
        in between, or the browser stops counting it as the reader's doing */
     const wake = () => {
       if (!el.paused) return
-      if (canFadeRef.current) el.volume = 0
+      if (canFadeRef.current) el.volume = duckedRef.current ? DUCKED : VOLUME
       const p = el.play()
       if (p && p.catch) p.catch(() => {})
     }
 
-    /* The listeners come off only once sound is actually flowing. A play()
-       the browser turned down leaves them armed for the next scroll instead
-       of spending the single chance we had on it. */
-    const flowing = () => {
+    /* The listeners come off only once the audio clock has actually moved.
+       A play() the browser turned down — or accepted and never honoured —
+       leaves them armed for the next scroll instead of spending the single
+       chance we had on it. */
+    const progressed = () => {
+      if (el.currentTime <= 0) return
+      el.removeEventListener('timeupdate', progressed)
       WAKE.forEach((e) => document.removeEventListener(e, wake))
-      fade(duckedRef.current ? DUCKED : VOLUME, FADE_IN)
     }
 
-    el.addEventListener('playing', flowing)
+    el.addEventListener('timeupdate', progressed)
     WAKE.forEach((e) => document.addEventListener(e, wake, { passive: true }))
     return () => {
-      el.removeEventListener('playing', flowing)
+      el.removeEventListener('timeupdate', progressed)
       WAKE.forEach((e) => document.removeEventListener(e, wake))
     }
-  }, [started, fade])
+  }, [started])
 
   /* While Inaya's message plays the theme drops to a murmur underneath it.
      Where the volume will not move — a phone — it steps out of the way
