@@ -18,8 +18,13 @@ const PHASES = [
 ]
 const DONE_AT = 3850
 
+/* The joining word is the family's to choose, and it is set in its own script:
+   Devanagari takes the Devanagari face and its own tracking, not the tracked-out
+   Latin small caps. */
+const DEVANAGARI = /[\u0900-\u097F]/
+
 export default function Intro({ onOpen, onDone }) {
-  const { names } = useSide()
+  const { names, weds } = useSide()
   const reduce = useReducedMotion()
   const [phase, setPhase] = useState('p0')
   const opened = useRef(false)
@@ -70,7 +75,9 @@ export default function Intro({ onOpen, onDone }) {
               <img src="/assets/monogram.png" alt="" className="intro__card-mark" />
               <p className="intro__card-names">
                 <span className="script">{names[0]}</span>
-                <span className="intro__card-weds">weds</span>
+                <span className={`intro__card-weds${DEVANAGARI.test(weds) ? ' lang-dev' : ''}`}>
+                  {weds}
+                </span>
                 <span className="script">{names[1]}</span>
               </p>
               <span className="intro__card-rule" />

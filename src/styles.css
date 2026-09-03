@@ -143,6 +143,14 @@ sup { font-size: 0.55em; }
   letter-spacing: 0.5em; text-indent: 0.5em; text-transform: uppercase;
   color: #b8863c; margin: 4px 0;
 }
+/* the same word set in Devanagari: its own face, a touch more size and far
+   less tracking — letter-spacing that flatters small caps pulls संग apart */
+.intro__card-weds.lang-dev {
+  font-family: "Noto Serif Devanagari", "Cormorant Garamond", serif;
+  font-size: 0.95rem; line-height: 1.5;
+  letter-spacing: 0.16em; text-indent: 0.16em;
+  margin: 0;
+}
 .intro__card-rule { display: block; width: 64px; height: 1px; margin: 12px auto 10px; background: var(--gold); }
 .intro__card-date { font-family: "Marcellus", serif; font-size: 0.85rem; letter-spacing: 0.22em; color: #6b3d1a; }
 

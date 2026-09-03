@@ -15,6 +15,8 @@ export const GROOM = {
   key: 'groom',
   /* the envelope card, and the order the names are read in */
   names: ['Varun', 'Prarita'],
+  /* the word that joins them on the card */
+  weds: 'weds',
   title: 'Varun weds Prarita — 26 November 2026',
 
   /* Ma's blessing over the hero */
@@ -84,6 +86,8 @@ export const BRIDE = {
 
   key: 'bride',
   names: ['Prarita', 'Varun'],
+  /* her card joins the names in Hindi — Devanagari sets itself on the card */
+  weds: 'संग',
   title: 'Prarita weds Varun — 26 November 2026',
 
   /* A mother's blessing, from this side of the courtyard. Written to mirror
