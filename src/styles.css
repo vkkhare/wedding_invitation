@@ -722,6 +722,19 @@ sup { font-size: 0.55em; }
   margin: 6px 0 8px;
   font-weight: 400;
 }
+/* The same card set in Devanagari: the calligraphic title face has none, the
+   wide small-caps tracking of the kicker shatters it, and the italic the times
+   are set in would come out as a synthetic slant — so each gets its own. */
+.event-card__kicker.lang-dev {
+  font-family: "Noto Serif Devanagari", "Cormorant Garamond", serif;
+  font-size: clamp(0.9rem, 3.1vw, 1rem);
+  letter-spacing: 0.1em; text-indent: 0.1em;
+}
+.bigday__title--dev { font-size: clamp(1.7rem, 7vw, 2.7rem); line-height: 1.45; }
+.event-card__sub.lang-dev { font-style: normal; }
+.event-place { margin-top: 18px; font-size: clamp(0.95rem, 3.2vw, 1.08rem); line-height: 1.9; color: var(--ink); }
+.event-place__label { color: #9a6a2e; letter-spacing: 0.04em; }
+
 .bigday__head .event-card__icon { margin-bottom: 10px; }
 .bigday__head .event-card__sub {
   margin-top: 16px;

@@ -135,6 +135,37 @@ function HaldiScene({ sub }) {
   )
 }
 
+/* Where a family opens its festivities somewhere else entirely: their own
+   evening, in their own words, in the composition the haldi day uses. */
+function FirstDayScene({ day }) {
+  return (
+    <div className="bigday bigday--haldi">
+      <Reveal className="bigday__head bigday__head--left">
+        <div className="event-card__icon" aria-hidden="true"><HaldiIcon /></div>
+        <p className="event-card__kicker lang-dev">{day.kicker}</p>
+        <h3 className="bigday__title bigday__title--dev lang-dev">{day.title}</h3>
+        <p className="event-card__meta lang-dev">{day.meta}</p>
+        <div className="event-card__sub lang-dev">
+          {day.sub.map((s) => (
+            <span key={s} className="event-card__subitem">
+              <span>{s}</span>
+            </span>
+          ))}
+        </div>
+        {day.place && (
+          <div className="event-place lang-dev">
+            <p className="event-place__label">{day.place.label}</p>
+            {day.place.lines.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </div>
+        )}
+      </Reveal>
+      <HaldiArt />
+    </div>
+  )
+}
+
 const MusicIcon = () => (
   <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
     <path d="M24 46 V16 l24 -6 v30" />
@@ -170,7 +201,7 @@ function SangeetScene() {
 }
 
 export default function Events() {
-  const { shubhRasmein, bigDay } = useSide()
+  const { shubhRasmein, bigDay, firstDay } = useSide()
 
   return (
     <section className="section section--cream" id="events">
@@ -190,8 +221,8 @@ export default function Events() {
 
       </div>
 
-      {/* 25 Nov — Haldi as a full painted scene */}
-      <HaldiScene sub={shubhRasmein} />
+      {/* the day the celebrations open on, wherever each family opens them */}
+      {firstDay ? <FirstDayScene day={firstDay} /> : <HaldiScene sub={shubhRasmein} />}
 
       <SangeetScene />
 

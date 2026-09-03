@@ -133,6 +133,20 @@ export const BRIDE = {
     wish: 'आपकी शुभकामनाएँ एवं शुभाशीष नवयुगल के नवजीवन की अमूल्य निधि होंगे।',
   },
 
+  /* The evening at her family's own home in Lucknow — the first of the
+     celebrations on her side, and what stands where the groom's page opens the
+     festivities with Shubh Rasmein. */
+  firstDay: {
+    kicker: 'शनिवार · 21 नवम्बर 2026',
+    title: 'श्याम ज्योति',
+    meta: 'सायं 6 बजे',
+    sub: ['प्रीतिभोज · रात्रि 8 बजे'],
+    place: {
+      label: 'स्थान · निज निवास',
+      lines: ['F-48, पॉकेट-1, पेंटल पार्क सिटी', 'सुल्तानपुर रोड, लखनऊ'],
+    },
+  },
+
   hosts: 'Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal',
   child: 'daughter',
 
