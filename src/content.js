@@ -150,6 +150,14 @@ export const BRIDE = {
     },
   },
 
+  /* The day the two families' functions run from morning to the sangeet. */
+  sangeetDay: {
+    kicker: 'बुधवार · 25 नवम्बर 2026',
+    title: 'सगाई एवं संगीत',
+    meta: 'सायं 7 बजे',
+    sub: ['तिलक · प्रातः 10 बजे', 'हल्दी · अपराह्न 2 बजे'],
+  },
+
   hosts: 'Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal',
   child: 'daughter',
 

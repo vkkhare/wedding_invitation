@@ -135,16 +135,17 @@ function HaldiScene({ sub }) {
   )
 }
 
-/* Where a family opens its festivities somewhere else entirely: their own
-   evening, in their own words, in the composition the haldi day uses. */
-function FirstDayScene({ day }) {
+/* A day as a family sends it in their own words: the date it falls on, the name
+   it goes by, its hour, what else happens that day, and where. It fills the
+   same head the English cards do, so a page can carry one of each. */
+function DayHead({ day, icon }) {
   return (
-    <div className="bigday bigday--haldi">
-      <Reveal className="bigday__head bigday__head--left">
-        <div className="event-card__icon" aria-hidden="true"><HaldiIcon /></div>
-        <p className="event-card__kicker lang-dev">{day.kicker}</p>
-        <h3 className="bigday__title bigday__title--dev lang-dev">{day.title}</h3>
-        <p className="event-card__meta lang-dev">{day.meta}</p>
+    <>
+      <div className="event-card__icon" aria-hidden="true">{icon}</div>
+      <p className="event-card__kicker lang-dev">{day.kicker}</p>
+      <h3 className="bigday__title bigday__title--dev lang-dev">{day.title}</h3>
+      {day.meta && <p className="event-card__meta lang-dev">{day.meta}</p>}
+      {day.sub && (
         <div className="event-card__sub lang-dev">
           {day.sub.map((s) => (
             <span key={s} className="event-card__subitem">
@@ -152,14 +153,26 @@ function FirstDayScene({ day }) {
             </span>
           ))}
         </div>
-        {day.place && (
-          <div className="event-place lang-dev">
-            <p className="event-place__label">{day.place.label}</p>
-            {day.place.lines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
-        )}
+      )}
+      {day.place && (
+        <div className="event-place lang-dev">
+          <p className="event-place__label">{day.place.label}</p>
+          {day.place.lines.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
+/* Where a family opens its festivities somewhere else entirely — their own
+   evening, in the composition the haldi day uses. */
+function FirstDayScene({ day }) {
+  return (
+    <div className="bigday bigday--haldi">
+      <Reveal className="bigday__head bigday__head--left">
+        <DayHead day={day} icon={<HaldiIcon />} />
       </Reveal>
       <HaldiArt />
     </div>
@@ -176,7 +189,7 @@ const MusicIcon = () => (
 )
 
 /* 25 Nov evening — the couple dancing free on the page, no frame around them */
-function SangeetScene() {
+function SangeetScene({ day }) {
   return (
     <div className="bigday bigday--sangeet">
       <AlphaVideo
@@ -188,20 +201,26 @@ function SangeetScene() {
         ]}
       />
       <Reveal className="bigday__head">
-        <div className="event-card__icon" aria-hidden="true"><MusicIcon /></div>
-        <p className="event-card__kicker">An Evening of Music &amp; Dance</p>
-        <h3 className="bigday__title script">Sangeet</h3>
-        <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
-        <div className="event-card__sub">
-          <span className="event-card__subitem"><span>{nb('8:00 pm onwards')}</span></span>
-        </div>
+        {day ? (
+          <DayHead day={day} icon={<MusicIcon />} />
+        ) : (
+          <>
+            <div className="event-card__icon" aria-hidden="true"><MusicIcon /></div>
+            <p className="event-card__kicker">An Evening of Music &amp; Dance</p>
+            <h3 className="bigday__title script">Sangeet</h3>
+            <p className="event-card__meta">Wednesday · 25<sup>th</sup> November 2026</p>
+            <div className="event-card__sub">
+              <span className="event-card__subitem"><span>{nb('8:00 pm onwards')}</span></span>
+            </div>
+          </>
+        )}
       </Reveal>
     </div>
   )
 }
 
 export default function Events() {
-  const { shubhRasmein, bigDay, firstDay, festivities } = useSide()
+  const { shubhRasmein, bigDay, firstDay, sangeetDay, festivities } = useSide()
 
   return (
     <section className="section section--cream" id="events">
@@ -230,7 +249,7 @@ export default function Events() {
       {/* the day the celebrations open on, wherever each family opens them */}
       {firstDay ? <FirstDayScene day={firstDay} /> : <HaldiScene sub={shubhRasmein} />}
 
-      <SangeetScene />
+      <SangeetScene day={sangeetDay} />
 
       {/* The Big Day — one composition: the jharokha with the full day beside it */}
       <div className="bigday bigday--haldi">
