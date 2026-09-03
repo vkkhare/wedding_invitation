@@ -90,14 +90,16 @@ export const BRIDE = {
   weds: 'संग',
   title: 'Prarita weds Varun — 26 November 2026',
 
-  /* A mother's blessing, from this side of the courtyard. Written to mirror
-     the groom-side couplet — replace it with Ma's own words when she has them. */
+  /* Her side opens on the family's own dedication rather than a couplet in one
+     voice, so it carries no signature; the last line names the rite and is set
+     to carry the weight. */
   poem: {
     lines: [
-      'आज इस आंगन से एक किरण विदा होती है',
-      'दुआओं की चादर उसके संग-संग चलती है',
+      'दो आत्माओं का समर्पण, दो परिवारों का स्नेहमय मिलन',
+      'और अनगिनत शुभकामनाओं से सजा',
     ],
-    sign: '— माँ',
+    closing: 'शुभ पाणिग्रहण संस्कार…',
+    sign: null,
   },
 
   hosts: 'Shri Prakash Chandra Agrawal & Smt. Shalini Agrawal',

@@ -162,17 +162,29 @@ export default function Hero({ started = true }) {
       </motion.div>
       <div className="hero__vignette" aria-hidden="true" />
 
-      {/* Ma's blessing, emerging over the picture once the envelope has opened */}
-      <motion.div className="hero__poem" style={mv(yPoem)}>
+      {/* The words over the picture — Ma's blessing on one side, the family's
+          dedication on the other — emerging once the envelope has opened */}
+      <motion.div
+        className={`hero__poem${poem.closing ? ' hero__poem--dedication' : ''}`}
+        style={mv(yPoem)}
+      >
         <motion.div className="hero__poem-inner" {...revealProps}>
           {poem.lines.map((line) => (
             <motion.p key={line} className="lang-dev" {...lineProps}>
               {line}
             </motion.p>
           ))}
-          <motion.p className="hero__poem-sign lang-dev" {...lineProps}>
-            {poem.sign}
-          </motion.p>
+          {/* the line the two before it build to — the rite itself */}
+          {poem.closing && (
+            <motion.p className="hero__poem-closing lang-dev" {...lineProps}>
+              {poem.closing}
+            </motion.p>
+          )}
+          {poem.sign && (
+            <motion.p className="hero__poem-sign lang-dev" {...lineProps}>
+              {poem.sign}
+            </motion.p>
+          )}
         </motion.div>
       </motion.div>
 

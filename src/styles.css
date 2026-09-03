@@ -193,7 +193,8 @@ sup { font-size: 0.55em; }
   object-fit: cover; object-position: 50% 50%;
 }
 
-/* Ma's blessing, centred and sitting just above the mandap — never over the couple */
+/* The words over the picture — Ma's blessing on one side, the family's
+   dedication on the other — centred just above the mandap, never over the couple */
 .hero__poem {
   position: absolute; left: 0; right: 0; top: 24svh;
   z-index: 4;
@@ -219,6 +220,20 @@ sup { font-size: 0.55em; }
   font-size: clamp(1.35rem, 5.8vw, 2rem);
   color: var(--gold-bright);
   letter-spacing: 0.08em;
+}
+/* A dedication rather than a couplet: more words to carry, so the body sits
+   quieter and tighter than a two-line blessing would, and the last line — the
+   name of the rite the two before it build to — takes the brightest gold. */
+.hero__poem--dedication p {
+  font-size: clamp(1.04rem, 4.2vw, 1.5rem);
+  line-height: 1.85;
+  text-wrap: balance;
+}
+.hero__poem--dedication .hero__poem-closing {
+  margin-top: 14px;
+  font-size: clamp(1.28rem, 5.1vw, 1.9rem);
+  color: var(--gold-bright);
+  letter-spacing: 0.04em;
 }
 @media (min-width: 960px) { .hero__poem { top: 5svh; } }
 
