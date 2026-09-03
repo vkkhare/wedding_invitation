@@ -33,8 +33,8 @@ export default function Countdown() {
           Surrounded by family and friends, we can't wait
           <br className="br-desk" /> to celebrate this beautiful moment with you.
         </Reveal>
-        <Divider />
         <Reveal as="p" className="count-date">26 · 11 · 2026</Reveal>
+        <Divider />
         <Reveal as="p" className="countdown" aria-live="polite">
           <span><b>{t.d}</b><small>Days</small></span>
           <i>·</i>

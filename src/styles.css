@@ -499,10 +499,11 @@ sup { font-size: 0.55em; }
 .countdown b { font-family: "Marcellus", serif; font-weight: 400; font-size: clamp(1.45rem, 5.6vw, 2.1rem); line-height: 1; font-variant-numeric: tabular-nums; }
 .countdown small { font-size: 0.58rem; letter-spacing: 0.26em; text-indent: 0.26em; text-transform: uppercase; color: var(--gold); }
 .countdown i { font-style: normal; font-size: clamp(0.95rem, 3.2vw, 1.4rem); color: var(--gold); transform: translateY(-0.4em); }
-/* The date is the thing being waited for, so it reads first and largest;
-   the tally underneath is the small print of it. */
+/* The date is the thing being waited for, so it reads first and largest,
+   above the rule; the tally below is the small print of it. The gap
+   underneath is the divider's own margin, so there is none set here. */
 .count-date {
-  margin-bottom: clamp(14px, 3.6vw, 22px);
+  margin-top: clamp(20px, 5vw, 30px);
   font-family: "Marcellus", serif;
   font-size: clamp(1.6rem, 6.6vw, 2.4rem);
   letter-spacing: 0.24em; text-indent: 0.24em;
