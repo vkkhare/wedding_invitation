@@ -1,23 +1,27 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 /* Background music for the whole invitation.
 
-   Browsers refuse to start sound on their own, so the track waits for the
-   reader's first touch — which, for almost everyone, is the tap that opens the
-   envelope. Anyone who lets the envelope open by itself gets the control in the
-   corner instead, and anyone who turns it off is not asked twice. */
+   The track tries to start on its own the moment the page is ready. Browsers
+   that refuse unprompted sound get a second chance at the reader's first
+   touch — which, for almost everyone, is the tap that opens the envelope.
+   There is no control in the corner: the music simply plays, and steps aside
+   whenever Inaya's message asks for the room. */
 
 const VOLUME = 0.5
+const DUCKED = 0.08
 const FADE_IN = 2200
-const FADE_OUT = 500
+const FADE_DUCK = 700
 
-export default function Music() {
+export default function Music({ ducked = false }) {
   const audioRef = useRef(null)
   const fadeRef = useRef(0)
-  const declined = useRef(false)
-  const [playing, setPlaying] = useState(false)
+  /* read inside start(), which has to stay stable across ducking or the
+     first-touch listener below would be torn down and re-armed mid-fade */
+  const duckedRef = useRef(ducked)
+  duckedRef.current = ducked
 
-  const fade = useCallback((to, ms, then) => {
+  const fade = useCallback((to, ms) => {
     const el = audioRef.current
     if (!el) return
     cancelAnimationFrame(fadeRef.current)
@@ -30,63 +34,38 @@ export default function Music() {
       const k = Math.min(1, Math.max(0, (t - t0) / ms))
       el.volume = Math.min(1, Math.max(0, from + (to - from) * k))
       if (k < 1) fadeRef.current = requestAnimationFrame(step)
-      else if (then) then()
     }
     fadeRef.current = requestAnimationFrame(step)
   }, [])
 
   const start = useCallback(() => {
     const el = audioRef.current
-    if (!el || declined.current || !el.paused) return
+    if (!el || !el.paused) return
     el.volume = 0
     const p = el.play()
     if (p && p.catch) p.catch(() => {})
-    fade(VOLUME, FADE_IN)
+    fade(duckedRef.current ? DUCKED : VOLUME, FADE_IN)
   }, [fade])
 
-  /* The opening tap is the gesture that earns us the right to make a sound. */
+  /* Try unprompted first; the opening tap is the fallback for the browsers
+     that say no. Either way the listener is torn down after one shot. */
   useEffect(() => {
+    start()
     const events = ['pointerdown', 'touchstart', 'keydown']
     const once = () => { events.forEach((e) => document.removeEventListener(e, once)); start() }
     events.forEach((e) => document.addEventListener(e, once, { passive: true }))
     return () => events.forEach((e) => document.removeEventListener(e, once))
   }, [start])
 
+  /* While her message plays the theme drops back rather than stopping, so the
+     room never goes silent and the words stay on top of it. */
+  useEffect(() => {
+    const el = audioRef.current
+    if (!el || el.paused) return
+    fade(ducked ? DUCKED : VOLUME, FADE_DUCK)
+  }, [ducked, fade])
+
   useEffect(() => () => cancelAnimationFrame(fadeRef.current), [])
 
-  const toggle = () => {
-    const el = audioRef.current
-    if (!el) return
-    if (el.paused) {
-      declined.current = false
-      start()
-    } else {
-      declined.current = true
-      fade(0, FADE_OUT, () => el.pause())
-    }
-  }
-
-  return (
-    <>
-      <audio
-        ref={audioRef}
-        src="assets/wedding-theme.mp3"
-        loop
-        preload="none"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-      />
-      <button
-        type="button"
-        className={`music${playing ? ' is-on' : ''}`}
-        onClick={toggle}
-        aria-pressed={playing}
-        aria-label={playing ? 'Turn the music off' : 'Turn the music on'}
-      >
-        <span className="music__bars" aria-hidden="true">
-          <i /><i /><i /><i />
-        </span>
-      </button>
-    </>
-  )
+  return <audio ref={audioRef} src="assets/wedding-theme.mp3" loop preload="auto" />
 }

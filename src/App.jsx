@@ -14,6 +14,8 @@ import Music from './components/Music.jsx'
 export default function App() {
   const [introDone, setIntroDone] = useState(false)
   const finishIntro = useCallback(() => setIntroDone(true), [])
+  /* the theme steps back while Inaya's message is playing */
+  const [voiceNote, setVoiceNote] = useState(false)
 
   return (
     <>
@@ -25,11 +27,11 @@ export default function App() {
         <Countdown />
         <Events />
         <Venue />
-        <Family />
+        <Family onVoiceNote={setVoiceNote} />
         <TrainBand />
         <Footer />
       </main>
-      <Music />
+      <Music ducked={voiceNote} />
     </>
   )
 }

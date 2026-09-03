@@ -1,12 +1,16 @@
+import { useRef } from 'react'
 import Reveal from './Reveal.jsx'
+import VoiceNote from './VoiceNote.jsx'
 import { Divider } from './Invocation.jsx'
 
 const WHATSAPP =
   'https://wa.me/917898527805?text=Namaste!%20We%20would%20be%20delighted%20to%20join%20the%20wedding%20celebrations%20of%20Varun%20%26%20Prarita.'
 
-export default function Family() {
+export default function Family({ onVoiceNote }) {
+  const sectionRef = useRef(null)
+
   return (
-    <section className="section section--red section--flush" id="family">
+    <section className="section section--red section--flush" id="family" ref={sectionRef}>
       <div className="wrap">
         <Reveal as="p" className="count-copy">
           Thank you for being part of our journey. Your presence at the wedding celebrations will
@@ -22,6 +26,7 @@ export default function Family() {
           Kratika
         </Reveal>
         <Reveal as="p" className="family-names family-names--little">Mama&rsquo;s little girl — Inaya</Reveal>
+        <VoiceNote src="assets/inaya-message.mp3" targetRef={sectionRef} onPlaying={onVoiceNote} />
 
         <Divider glyph="✻" />
 
