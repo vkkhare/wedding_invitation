@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import Intro from './components/Intro.jsx'
 import Hero from './components/Hero.jsx'
 import Invocation from './components/Invocation.jsx'
@@ -16,10 +16,14 @@ export default function App() {
   const finishIntro = useCallback(() => setIntroDone(true), [])
   /* the theme steps back while Inaya's message is playing */
   const [voiceNote, setVoiceNote] = useState(false)
+  /* the tap that opens the envelope starts the music, from inside that same
+     handler — a browser stops counting the gesture the moment it returns */
+  const startMusic = useRef(null)
+  const openEnvelope = useCallback(() => { if (startMusic.current) startMusic.current() }, [])
 
   return (
     <>
-      {!introDone && <Intro onDone={finishIntro} />}
+      {!introDone && <Intro onOpen={openEnvelope} onDone={finishIntro} />}
       <Hero started={introDone} />
       <main>
         <Invocation />
@@ -31,7 +35,7 @@ export default function App() {
         <TrainBand />
         <Footer />
       </main>
-      <Music started={introDone} ducked={voiceNote} />
+      <Music playRef={startMusic} ducked={voiceNote} />
     </>
   )
 }

@@ -1,39 +1,65 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-/* Opening sequence: a sealed red envelope opens and the invitation card
-   rises out, revealing the couple's names, then fades into the hero film. */
-const PHASES = [
-  ['p1', 600],   // flap lifts
-  ['p2', 1500],  // card rises out
-  ['p3', 2450],  // card comes forward
-  ['p4', 3700],  // fade away
-]
-const DONE_AT = 4450
+/* Opening sequence: a sealed red envelope that waits to be opened.
 
-export default function Intro({ onDone }) {
+   The invitation no longer lets itself in. The reader taps the seal, the flap
+   lifts, the card rises out and carries the couple's names forward, and the
+   hero takes over. That tap is also what earns the page the right to make a
+   sound, so the music is started from inside the same handler — a browser
+   counts the gesture only while its own event is still running, and a moment
+   later is already too late. */
+const PHASES = [
+  ['p1', 0],     // flap lifts
+  ['p2', 900],   // card rises out
+  ['p3', 1850],  // card comes forward
+  ['p4', 3100],  // fade away
+]
+const DONE_AT = 3850
+
+export default function Intro({ onOpen, onDone }) {
   const reduce = useReducedMotion()
   const [phase, setPhase] = useState('p0')
+  const opened = useRef(false)
   const timers = useRef([])
 
-  useEffect(() => {
+  useEffect(() => () => timers.current.forEach(clearTimeout), [])
+
+  const open = useCallback(() => {
+    if (opened.current) {
+      /* a second tap means get on with it */
+      timers.current.forEach(clearTimeout)
+      setPhase('p4')
+      timers.current.push(setTimeout(onDone, 500))
+      return
+    }
+    opened.current = true
+    onOpen()
+
     if (reduce) {
-      timers.current.push(setTimeout(onDone, 1400))
-      return () => timers.current.forEach(clearTimeout)
+      setPhase('p4')
+      timers.current.push(setTimeout(onDone, 700))
+      return
     }
     PHASES.forEach(([p, t]) => timers.current.push(setTimeout(() => setPhase(p), t)))
     timers.current.push(setTimeout(onDone, DONE_AT))
-    return () => timers.current.forEach(clearTimeout)
-  }, [reduce, onDone])
+  }, [onOpen, onDone, reduce])
 
-  const skip = () => {
-    timers.current.forEach(clearTimeout)
-    setPhase('p4')
-    timers.current.push(setTimeout(onDone, 500))
+  const onKeyDown = (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return
+    e.preventDefault()
+    open()
   }
 
   return (
-    <div className={`intro ${phase}${reduce ? ' intro--still' : ''}`} onClick={skip} role="presentation">
+    <div
+      className={`intro ${phase}${reduce ? ' intro--still' : ''}`}
+      onClick={open}
+      onKeyDown={onKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-label="Tap to open the invitation"
+    >
       <div className="intro__stage">
         <div className="intro__env" aria-hidden="true">
           <div className="intro__env-back" />

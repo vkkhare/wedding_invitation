@@ -2,19 +2,14 @@ import { useCallback, useEffect, useRef } from 'react'
 
 /* Background music for the whole invitation.
 
-   The reader's first scroll down the invitation starts the theme. On a phone
-   that scroll begins with a finger on the glass, which is the gesture every
-   browser wants before it will make a sound at a stranger; wheel, key and
-   scroll events are watched alongside it so a trackpad or a keyboard counts
-   too. Nothing is armed until the envelope is out of the way — the music
-   belongs to the invitation, not to the opening.
+   The tap that opens the envelope is what starts it. That is the one gesture
+   a browser accepts without argument, and play() is called from inside the
+   tap's own handler, while the browser is still counting it — anything
+   deferred to an animation, a promise or a later event has already lost it.
 
-   Everything here is arranged so that the failure mode is loud rather than
-   silent. The volume is set before playback, never after: a fade-in that
-   depends on a later event is a track playing at nothing on any phone where
-   that event does not arrive. And the listeners stay armed until the clock
-   on the audio has actually moved, so a play() the browser accepted but
-   never honoured gets asked again on the next scroll. */
+   The listeners below are only insurance: if that first play is refused,
+   the next lift of a finger tries again, and they take themselves off once
+   the audio clock has actually moved. */
 
 const VOLUME = 0.5
 const DUCKED = 0.08
@@ -23,9 +18,8 @@ const FADE_DUCK = 700
 /* touchend and pointerup carry the weight here. A browser will not take a
    finger landing on the glass as permission to make a sound — at touchstart
    it cannot yet tell a tap from a scroll, so it withholds consent until the
-   finger lifts. That is why a deliberate tap worked, which also fires click,
-   and a scroll did not. The rest are kept for the mouse, wheel and keyboard,
-   and cost nothing when they turn out not to count. */
+   finger lifts. The rest are for the mouse, wheel and keyboard, and cost
+   nothing when they turn out not to count. */
 const WAKE = [
   'touchend', 'pointerup', 'click', 'keydown', 'mouseup',
   'touchstart', 'touchmove', 'pointerdown', 'wheel', 'scroll',
@@ -42,11 +36,11 @@ function volumeIsWritable(el) {
   return writable
 }
 
-export default function Music({ started, ducked = false }) {
+export default function Music({ playRef, ducked = false }) {
   const audioRef = useRef(null)
   const fadeRef = useRef(0)
   const canFadeRef = useRef(true)
-  /* read inside the wake handler, which must stay stable across ducking */
+  /* read inside start(), which must stay stable across ducking */
   const duckedRef = useRef(ducked)
   duckedRef.current = ducked
 
@@ -67,37 +61,36 @@ export default function Music({ started, ducked = false }) {
     fadeRef.current = requestAnimationFrame(step)
   }, [])
 
+  /* The volume is set before play(), never after: a ramp that waits on a
+     later event is a track playing at nothing wherever that event does not
+     arrive, and silence has no way out of itself. */
+  const start = useCallback(() => {
+    const el = audioRef.current
+    if (!el || !el.paused) return
+    if (canFadeRef.current) el.volume = duckedRef.current ? DUCKED : VOLUME
+    const p = el.play()
+    if (p && p.catch) p.catch(() => {})
+  }, [])
+
   useEffect(() => {
     const el = audioRef.current
-    if (!started || !el) return
+    if (!el) return
     canFadeRef.current = volumeIsWritable(el)
+    if (playRef) playRef.current = start
 
-    /* play() has to be called straight out of the event, with nothing awaited
-       in between, or the browser stops counting it as the reader's doing */
-    const wake = () => {
-      if (!el.paused) return
-      if (canFadeRef.current) el.volume = duckedRef.current ? DUCKED : VOLUME
-      const p = el.play()
-      if (p && p.catch) p.catch(() => {})
-    }
-
-    /* The listeners come off only once the audio clock has actually moved.
-       A play() the browser turned down — or accepted and never honoured —
-       leaves them armed for the next scroll instead of spending the single
-       chance we had on it. */
     const progressed = () => {
       if (el.currentTime <= 0) return
       el.removeEventListener('timeupdate', progressed)
-      WAKE.forEach((e) => document.removeEventListener(e, wake))
+      WAKE.forEach((e) => document.removeEventListener(e, start))
     }
-
     el.addEventListener('timeupdate', progressed)
-    WAKE.forEach((e) => document.addEventListener(e, wake, { passive: true }))
+    WAKE.forEach((e) => document.addEventListener(e, start, { passive: true }))
     return () => {
+      if (playRef) playRef.current = null
       el.removeEventListener('timeupdate', progressed)
-      WAKE.forEach((e) => document.removeEventListener(e, wake))
+      WAKE.forEach((e) => document.removeEventListener(e, start))
     }
-  }, [started])
+  }, [playRef, start])
 
   /* While Inaya's message plays the theme drops to a murmur underneath it.
      Where the volume will not move — a phone — it steps out of the way
