@@ -175,7 +175,7 @@ export default function Hero({ started = true }) {
         </motion.div>
       </motion.div>
 
-      <h1 className="visually-hidden">Prarita weds Varun — 26 November 2026</h1>
+      <h1 className="visually-hidden">Varun weds Prarita — 26 November 2026</h1>
 
       <a className="hero__scroll" href="#invocation" aria-label="Scroll to open the invitation">
         <span className="hero__scroll-text">Scroll to Open Invitation</span>

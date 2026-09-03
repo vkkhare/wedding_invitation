@@ -1,7 +1,7 @@
-# Prarita weds Varun — Wedding E-Invite
+# Varun weds Prarita — Wedding E-Invite
 
 A mobile-first React wedding invitation website for the celebrations of
-**Prarita & Varun**, 26th November 2026 · Utopia Resort, Sanchi (Vidisha).
+**Varun & Prarita**, 26th November 2026 · Utopia Resort, Sanchi (Vidisha).
 
 **Live site:** https://praritawedsvarun.online
 
