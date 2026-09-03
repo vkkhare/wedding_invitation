@@ -20,7 +20,16 @@ const VOLUME = 0.5
 const DUCKED = 0.08
 const FADE_DUCK = 700
 
-const WAKE = ['touchstart', 'touchmove', 'pointerdown', 'click', 'keydown', 'wheel', 'scroll']
+/* touchend and pointerup carry the weight here. A browser will not take a
+   finger landing on the glass as permission to make a sound — at touchstart
+   it cannot yet tell a tap from a scroll, so it withholds consent until the
+   finger lifts. That is why a deliberate tap worked, which also fires click,
+   and a scroll did not. The rest are kept for the mouse, wheel and keyboard,
+   and cost nothing when they turn out not to count. */
+const WAKE = [
+  'touchend', 'pointerup', 'click', 'keydown', 'mouseup',
+  'touchstart', 'touchmove', 'pointerdown', 'wheel', 'scroll',
+]
 
 /* iPhones refuse to let a page set volume on a media element — the property
    is there, assignments to it just never take. Worth knowing once, because
