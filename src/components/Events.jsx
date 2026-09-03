@@ -201,7 +201,7 @@ function SangeetScene() {
 }
 
 export default function Events() {
-  const { shubhRasmein, bigDay, firstDay } = useSide()
+  const { shubhRasmein, bigDay, firstDay, festivities } = useSide()
 
   return (
     <section className="section section--cream" id="events">
@@ -217,7 +217,13 @@ export default function Events() {
         <Reveal as="p" className="lang-dev shloka-top shloka-top--dark">
           ॥ मंगलम् भगवान विष्णुः, मंगलम् गरुड़ध्वजः ॥
         </Reveal>
-        <Reveal as="h2" className="script section-script section-script--dark">Wedding Festivities</Reveal>
+        {festivities ? (
+          <Reveal as="h2" className="section-script section-script--dark section-script--dev lang-dev">
+            {festivities}
+          </Reveal>
+        ) : (
+          <Reveal as="h2" className="script section-script section-script--dark">Wedding Festivities</Reveal>
+        )}
 
       </div>
 

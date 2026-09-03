@@ -541,6 +541,8 @@ sup { font-size: 0.55em; }
 /* countdown */
 .section-script { font-size: clamp(2.6rem, 10vw, 4rem); color: var(--gold-bright); margin-bottom: clamp(16px, 4vw, 26px); line-height: 1.25; text-shadow: 0 4px 26px rgba(20, 2, 3, 0.5); }
 .section-script--dark { color: #8a1a1e; text-shadow: none; }
+/* the same heading in Devanagari, which the calligraphic face does not carry */
+.section-script--dev { font-size: clamp(1.9rem, 7.2vw, 2.9rem); line-height: 1.45; font-weight: 500; }
 .count-copy { font-size: clamp(1.05rem, 3.6vw, 1.25rem); line-height: 1.8; color: var(--gold-soft); }
 .br-desk { display: none; }
 

@@ -133,6 +133,9 @@ export const BRIDE = {
     wish: 'आपकी शुभकामनाएँ एवं शुभाशीष नवयुगल के नवजीवन की अमूल्य निधि होंगे।',
   },
 
+  /* the heading the festivities are announced under */
+  festivities: 'वैवाहिक कार्यक्रम',
+
   /* The evening at her family's own home in Lucknow — the first of the
      celebrations on her side, and what stands where the groom's page opens the
      festivities with Shubh Rasmein. */
