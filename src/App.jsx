@@ -31,7 +31,7 @@ export default function App() {
         <TrainBand />
         <Footer />
       </main>
-      <Music ducked={voiceNote} />
+      <Music started={introDone} ducked={voiceNote} />
     </>
   )
 }

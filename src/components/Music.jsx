@@ -2,22 +2,23 @@ import { useCallback, useEffect, useRef } from 'react'
 
 /* Background music for the whole invitation.
 
-   No browser will make an unprompted noise at a stranger, and the envelope
-   opens on a timer rather than a tap, so there may be no gesture to lean on.
-   What every browser does allow is muted playback — so the theme starts the
-   moment the page loads and simply runs silently, and the first sign of life
-   from the reader lifts the mute. There is nothing to press: a touch, a key,
-   even the first flick of a scroll wheel is enough, and the track is already
-   rolling underneath, so the sound arrives with no gap. */
+   The reader's first scroll down the invitation is what starts the theme.
+   On a phone that scroll begins with a finger on the glass, which is the
+   gesture every browser wants before it will make a sound at a stranger;
+   wheel, key and scroll events are watched alongside it so a trackpad or a
+   keyboard counts too. Nothing is armed until the envelope is out of the
+   way — the music belongs to the invitation, not to the opening. */
 
 const VOLUME = 0.5
 const DUCKED = 0.08
-const FADE_IN = 2200
+const FADE_IN = 1800
 const FADE_DUCK = 700
+
+const WAKE = ['touchstart', 'touchmove', 'pointerdown', 'click', 'keydown', 'wheel', 'scroll']
 
 /* iPhones refuse to let a page set volume on a media element — the property
    is there, assignments to it just never take. Worth knowing once, because
-   the fades and the duck below both need another way round on a phone. */
+   the fade and the duck below both need another way round on a phone. */
 function volumeIsWritable(el) {
   const held = el.volume
   el.volume = held === 0.5 ? 0.25 : 0.5
@@ -26,19 +27,11 @@ function volumeIsWritable(el) {
   return writable
 }
 
-/* A touch or a key is consent a browser will honour. A scroll or a mouse move
-   is not, but costs nothing to try once in case this reader is a regular the
-   browser already trusts — and exactly once, or a browser that answers by
-   pausing us would be fought over every frame of a scroll. */
-const CONSENT = ['pointerdown', 'touchstart', 'touchend', 'keydown', 'click']
-const LONG_SHOT = ['wheel', 'scroll', 'mousemove']
-
-export default function Music({ ducked = false }) {
+export default function Music({ started, ducked = false }) {
   const audioRef = useRef(null)
   const fadeRef = useRef(0)
   const canFadeRef = useRef(true)
-  const audibleRef = useRef(false)
-  /* read inside callbacks that have to stay stable across ducking */
+  /* read inside the wake handler, which must stay stable across ducking */
   const duckedRef = useRef(ducked)
   duckedRef.current = ducked
 
@@ -59,76 +52,53 @@ export default function Music({ ducked = false }) {
     fadeRef.current = requestAnimationFrame(step)
   }, [])
 
-  const resume = useCallback(() => {
-    const el = audioRef.current
-    if (!el || !el.paused) return
-    const p = el.play()
-    if (p && p.catch) p.catch(() => {})
-  }, [])
-
-  const raise = useCallback(() => {
-    const el = audioRef.current
-    if (!el || audibleRef.current) return
-    audibleRef.current = true
-    if (canFadeRef.current) el.volume = 0
-    el.muted = false
-    resume()
-    fade(duckedRef.current ? DUCKED : VOLUME, FADE_IN)
-  }, [fade, resume])
-
-  /* Silent from the first frame, which no browser objects to. */
   useEffect(() => {
     const el = audioRef.current
-    if (!el) return
+    if (!started || !el) return
     canFadeRef.current = volumeIsWritable(el)
-    el.muted = true
-    resume()
-  }, [resume])
 
-  useEffect(() => {
-    let spent = false
-    const onConsent = () => raise()
-    const onLongShot = () => { if (spent) return; spent = true; raise() }
-    CONSENT.forEach((e) => document.addEventListener(e, onConsent, { passive: true }))
-    LONG_SHOT.forEach((e) => document.addEventListener(e, onLongShot, { passive: true }))
-    /* left armed for the life of the page: coming back from another app, or
-       from a browser that took the mute off us, should not cost the music */
-    return () => {
-      CONSENT.forEach((e) => document.removeEventListener(e, onConsent))
-      LONG_SHOT.forEach((e) => document.removeEventListener(e, onLongShot))
+    /* play() has to be called straight out of the event, with nothing awaited
+       in between, or the browser stops counting it as the reader's doing */
+    const wake = () => {
+      if (!el.paused) return
+      if (canFadeRef.current) el.volume = 0
+      const p = el.play()
+      if (p && p.catch) p.catch(() => {})
     }
-  }, [raise])
 
-  /* A browser that disagrees with an unmute answers by pausing the element.
-     Take the hint, go back to running silently, and wait to be asked again. */
-  const onPause = useCallback(() => {
-    const el = audioRef.current
-    if (!el || !audibleRef.current || duckedRef.current) return
-    audibleRef.current = false
-    el.muted = true
-    resume()
-  }, [resume])
+    /* The listeners come off only once sound is actually flowing. A play()
+       the browser turned down leaves them armed for the next scroll instead
+       of spending the single chance we had on it. */
+    const flowing = () => {
+      WAKE.forEach((e) => document.removeEventListener(e, wake))
+      fade(duckedRef.current ? DUCKED : VOLUME, FADE_IN)
+    }
+
+    el.addEventListener('playing', flowing)
+    WAKE.forEach((e) => document.addEventListener(e, wake, { passive: true }))
+    return () => {
+      el.removeEventListener('playing', flowing)
+      WAKE.forEach((e) => document.removeEventListener(e, wake))
+    }
+  }, [started, fade])
 
   /* While Inaya's message plays the theme drops to a murmur underneath it.
      Where the volume will not move — a phone — it steps out of the way
      entirely and comes back when she is done, which is the same courtesy. */
   useEffect(() => {
     const el = audioRef.current
-    if (!el || !audibleRef.current) return
-    if (canFadeRef.current) fade(ducked ? DUCKED : VOLUME, FADE_DUCK)
-    else if (ducked) el.pause()
-    else resume()
-  }, [ducked, fade, resume])
+    if (!el) return
+    if (canFadeRef.current) {
+      if (!el.paused) fade(ducked ? DUCKED : VOLUME, FADE_DUCK)
+    } else if (ducked) {
+      el.pause()
+    } else if (el.currentTime > 0) {
+      const p = el.play()
+      if (p && p.catch) p.catch(() => {})
+    }
+  }, [ducked, fade])
 
   useEffect(() => () => cancelAnimationFrame(fadeRef.current), [])
 
-  return (
-    <audio
-      ref={audioRef}
-      src="assets/wedding-theme.mp3"
-      loop
-      preload="auto"
-      onPause={onPause}
-    />
-  )
+  return <audio ref={audioRef} src="assets/wedding-theme.mp3" loop preload="auto" />
 }
